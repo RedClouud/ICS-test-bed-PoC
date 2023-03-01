@@ -19,10 +19,11 @@ from tqdm import tqdm
 # #############################################################################
 
 warnings.filterwarnings("ignore", category=UserWarning)
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # telling what processor to use (where it is and where it is processed)
+# telling what processor to use (where it is and where it is processed)
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-class Net(nn.Module): # This model is specifically tailored for a dataset (CIFAR-10)
+class Net(nn.Module):  # This model is specifically tailored for a dataset (CIFAR-10)
     """Model (simple CNN adapted from 'PyTorch: A 60 Minute Blitz')"""
 
     # Defines naural network layers which are tailored to learn from the dataset
@@ -32,24 +33,24 @@ class Net(nn.Module): # This model is specifically tailored for a dataset (CIFAR
         # Conv2d
         # 3 is the number of channels (RGB), 6 is the number of filters,
         # 5 is the size of the filter
-        self.conv1 = nn.Conv2d(3, 6, 5) 
-        
+        self.conv1 = nn.Conv2d(3, 6, 5)
+
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
         self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
         # each of these lines defines a layer of the neural network
-        # each layer of a neural network will learn specific things and about parts of the 
+        # each layer of a neural network will learn specific things and about parts of the
         # dataset
-        # e.g. one layer will learn that a dog has a tail, another layer will learn that a 
+        # e.g. one layer will learn that a dog has a tail, another layer will learn that a
         # dog has a nose
-        # a deeper layer will then understand the characteristics of what makes up a tail 
+        # a deeper layer will then understand the characteristics of what makes up a tail
         # and what makes up a nose
-        
-        # this is where deep learning is useful: because you are able to characterise the data 
+
+        # this is where deep learning is useful: because you are able to characterise the data
         # into subcaegories (multilabel classification)
-        # in this case, for example, you would be able to not only say that the image is a dog 
+        # in this case, for example, you would be able to not only say that the image is a dog
         # but also that is is a german shepard
 
     # defines how it "progresses" (what parameters are going to change and how)
@@ -60,30 +61,30 @@ class Net(nn.Module): # This model is specifically tailored for a dataset (CIFAR
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         return self.fc3(x)
-    
+
     # backward is already defined in nn.Module, so you don't need to define it
-    # what backward does is it calculates the loss and then adjusts the parameters of the 
+    # what backward does is it calculates the loss and then adjusts the parameters of the
     # neural network to make it more accurate by reducing the loss (the difference between
     # the actual value and the predicted value)
     # backward is also known as optimisation: it optimises the parameters of the neural network
     # by reducing the step size (the amount that the parameters are changed by) until the
     # loss is minimised
 
-    # gradient decent is the process of finding the minimum of a function, in other words, 
+    # gradient decent is the process of finding the minimum of a function, in other words,
     # finding the best parameters for the neural network
 
 
-def train(net, trainloader, epochs): # trains the model to classify the data
+def train(net, trainloader, epochs):  # trains the model to classify the data
     """Train the model on the training set."""
-    criterion = torch.nn.CrossEntropyLoss() # loss calculation function
+    criterion = torch.nn.CrossEntropyLoss()  # loss calculation function
     optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-    for _ in range(epochs): # one epoch is one pass through the dataset
+    for _ in range(epochs):  # one epoch is one pass through the dataset
         for images, labels in tqdm(trainloader):
             optimizer.zero_grad()
             # this is required because otherwise the gradients from the previous image will
             # be added to the gradients of the current image which will make learning
             # impossible
-            
+
             loss = criterion(net(images.to(DEVICE)), labels.to(DEVICE))
             # calculates the current loss when using the parameters of the neural network
             # by comparing the images to the labels
@@ -92,7 +93,7 @@ def train(net, trainloader, epochs): # trains the model to classify the data
             # calculates the gradient of the loss function (the gradient is the slope of the
             # loss function)
 
-            optimizer.step() # <-- this is where the learning happens!
+            optimizer.step()  # <-- this is where the learning happens!
             # adjust the parameters of the NN by using the previous loss to calculate the
             # gradient of the loss function (the gradient is the slope of the loss function)
             # the gradient is then used to calculate the step size (the amount that the
@@ -106,8 +107,8 @@ def test(net, testloader):
     with torch.no_grad():
         # goes through the test set and compares the predicted values to the actual values
         for images, labels in tqdm(testloader):
-            outputs = net(images.to(DEVICE)) # predicts values
-            labels = labels.to(DEVICE) # loads the actual values
+            outputs = net(images.to(DEVICE))  # predicts values
+            labels = labels.to(DEVICE)  # loads the actual values
             loss += criterion(outputs, labels).item()
             # calculates the difference betweenthe predicted and actual values (how correct
             # the model is)
@@ -153,6 +154,8 @@ net = Net().to(DEVICE)
 trainloader, testloader = load_data()
 
 # Define Flower client (nothing to do with PyTorch/Deep learning, just federated learning)
+
+
 class FlowerClient(fl.client.NumPyClient):
 
     def get_parameters(self, config):
@@ -182,6 +185,6 @@ class FlowerClient(fl.client.NumPyClient):
 
 # Start Flower client
 fl.client.start_numpy_client(
-    server_address="127.0.0.1:8080",
+    server_address="172.19.0.2:8080",
     client=FlowerClient(),
 )

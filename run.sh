@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# This script is only usable on LINUX and uses terminals
+
 set -e
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/
 
