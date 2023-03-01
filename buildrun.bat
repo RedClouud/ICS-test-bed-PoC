@@ -13,18 +13,18 @@ set server_image_name=flwr-server:1.0
 :: DO NOT CHANGE ANYTHING BELOW THIS LINE
 
 :: Rebuild the Docker image for server
-echo Rebuilding Docker image...
+echo Rebuilding server Docker image...
 ren Dockerfile-server Dockerfile
 docker build -t %server_image_name% .
 ren Dockerfile Dockerfile-server 
-echo Docker image has been rebuilt.
+echo Server Docker image has been rebuilt.
 
 :: Rebuild the Docker image for client
-echo Rebuilding Docker image...
+echo Rebuilding client Docker image...
 ren Dockerfile-client Dockerfile
 docker build -t %client_image_name% .
 ren Dockerfile Dockerfile-client 
-echo Docker image has been rebuilt.
+echo Client Docker image has been rebuilt.
 
 :: Deletes exisitng containers 
 docker rm %server_name%

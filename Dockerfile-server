@@ -1,8 +1,8 @@
 FROM python:3.7
 
-RUN pip install flwr
-
 COPY . /app
 WORKDIR /app
+
+RUN pip install -r requirements-server.txt
 
 CMD ["python", "server.py"]

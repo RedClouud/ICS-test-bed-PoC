@@ -21,6 +21,7 @@ from tqdm import tqdm
 warnings.filterwarnings("ignore", category=UserWarning)
 # telling what processor to use (where it is and where it is processed)
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print("Using device", DEVICE)
 
 
 class Net(nn.Module):  # This model is specifically tailored for a dataset (CIFAR-10)
