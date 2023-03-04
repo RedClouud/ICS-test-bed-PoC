@@ -10,11 +10,14 @@ network_name=flwr-network
 client_image_name=flwr-client:1.0
 server_image_name=flwr-server:1.0
 
+### DO NOT EDIT BELOW THIS LINE ###
+
 # Download the CIFAR-10 dataset
 python3 -c "from torchvision.datasets import CIFAR10; CIFAR10('./data', download=True)"
 
-# Creates the network if it doesn't exist
-docker network create $network_name
+# Update the network
+docker network rm $network_name
+docker network create --subnet=172.18.0.0/16 $network_name
 
 # Skip Docker image build if -s or --skip-build is passed as an argument
 if [[ $* != *-s* ]] && [[ $* != *--skip-build* ]]
@@ -38,17 +41,19 @@ then
     echo "Cleaning up..."
     docker image prune --filter dangling=true -f
 
-    # Deletes exisitng containers
-    docker rm $server_name
-    for i in $(seq 1 $client_amount)
-    do
-        docker rm "$client_name-$i"
-    done
-
 fi
 
+# Deletes exisitng containers
+docker stop $server_name
+docker rm $server_name
+for i in $(seq 1 $client_amount)
+do
+    docker stop "$client_name-$i"
+    docker rm "$client_name-$i"
+done
+
 # Creates containers and connects them to the fl_network
-docker create --name $server_name --network $network_name $server_name:1.0
+docker create --name $server_name --network $network_name --ip 172.18.0.2 $server_name:1.0
 for i in $(seq 1 $client_amount)
 do
     docker create --name "$client_name-$i" --network $network_name flwr-client:1.0

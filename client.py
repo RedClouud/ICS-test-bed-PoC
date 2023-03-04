@@ -186,6 +186,6 @@ class FlowerClient(fl.client.NumPyClient):
 
 # Start Flower client
 fl.client.start_numpy_client(
-    server_address="172.19.0.2:8080",
+    server_address="172.18.0.2:8080",
     client=FlowerClient(),
 )
