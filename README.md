@@ -1,10 +1,13 @@
 # TRIST
-The Threat Research and Intelligence Sharing Testbed aims to make CPS threat research easy. Using docker makes testing easily deployable and adaptable to your needs. 
+
+The Threat Research and Intelligence Sharing Testbed aims to make CPS threat research easy. Using docker makes testing easily deployable and adaptable to your needs.
 
 ## About
 
 Contains the resources required to simulate federeated learning implemented with docker.
 You will require wsl and docker desktop to run this example.
+
+If you would like to use your compatable nvidia GPU for computing, install the [nvidia toolkit](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local) on your WSL version.
 
 Enjoy!
 
@@ -12,9 +15,9 @@ Enjoy!
 
 1. Execute run.sh
 
-    ``` bash
-    $ bash run.sh
-    ```
+   ```bash
+   $ bash run.sh
+   ```
 
 2. Watch as your images are prepared and clients are started!
 
@@ -33,7 +36,6 @@ Creates docker containers for server and clients connected to a network
     ```
 
 ## Prerequisites
-
 
 ### Windows
 

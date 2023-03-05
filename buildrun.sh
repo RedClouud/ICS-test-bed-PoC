@@ -53,10 +53,10 @@ do
 done
 
 # Creates containers and connects them to the fl_network
-docker create --name $server_name --network $network_name --ip 172.18.0.2 $server_name:1.0
+docker create --name $server_name --network $network_name --ip 172.18.0.2 --gpus all $server_name:1.0
 for i in $(seq 1 $client_amount)
 do
-    docker create --name "$client_name-$i" --network $network_name flwr-client:1.0
+    docker create --name "$client_name-$i" --network $network_name --gpus all flwr-client:1.0
 done
 
 echo "All FL nodes have been created and connected to the fl_network."
