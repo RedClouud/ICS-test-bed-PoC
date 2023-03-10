@@ -34,9 +34,9 @@ class Net(nn.Module):  # This model is specifically tailored for a dataset (CIFA
         # Conv2d
         # 3 is the number of channels (RGB), 6 is the number of filters,
         # 5 is the size of the filter
-        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.conv1 = nn.Conv2d(3, 6, 5) # input channel, neurons, output
 
-        self.pool = nn.MaxPool2d(2, 2)
+        self.pool = nn.MaxPool2d(2, 2) 
         self.conv2 = nn.Conv2d(6, 16, 5)
         self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.fc2 = nn.Linear(120, 84)

@@ -1,0 +1,26 @@
+version: "3"
+services:
+  server:
+    image: flwr-server:1.0
+    networks: 
+      learning:
+        ipv4_address: "172.18.0.2"
+  client:
+    image: flwr-client:1.0
+    networks: 
+      learning:
+    deploy:
+      mode: replicated
+      replicas: 2
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+networks:
+  learning:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.0.0/16"
