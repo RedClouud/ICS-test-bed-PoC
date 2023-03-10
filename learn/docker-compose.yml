@@ -1,12 +1,19 @@
 version: "3"
 services:
   server:
-    image: flwr-server:1.0
+    image: flwr-server:latest
     networks: 
       learning:
         ipv4_address: "172.18.0.2"
+    volumes:
+      - ../:/app
+    healthcheck:
+        test: ["CMD", "echo", "Alive"]
+        interval: 5s
+        timeout: 10s
+        retries: 5
   client:
-    image: flwr-client:1.0
+    image: flwr-client:latest
     networks: 
       learning:
     deploy:
@@ -18,6 +25,13 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    volumes:
+      - ../:/app
+    depends_on: # Ensures that server has correct IP address
+      server:
+        condition: service_healthy
+    links:
+      - server
 networks:
   learning:
     ipam:

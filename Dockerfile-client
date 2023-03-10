@@ -3,7 +3,6 @@ FROM python:3.7
 COPY . /app
 WORKDIR /app
 
-ADD ./requirements-client.txt ./requirements-client.txt
 RUN pip install -r requirements-client.txt
 
 CMD ["python", "client.py"]

@@ -20,27 +20,50 @@ from tqdm import tqdm
 
 warnings.filterwarnings("ignore", category=UserWarning)
 # telling what processor to use (where it is and where it is processed)
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print("Using device", DEVICE)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using {device} device")
 
 
-class Net(nn.Module):  # This model is specifically tailored for a dataset (CIFAR-10)
+class MLP(nn.Module):  # This model is specifically tailored for a dataset (CIFAR-10)
     """Model (simple CNN adapted from 'PyTorch: A 60 Minute Blitz')"""
 
-    # Defines naural network layers which are tailored to learn from the dataset
-    def __init__(self) -> None:
-        super(Net, self).__init__()
-        # example tailored variable below...
-        # Conv2d
-        # 3 is the number of channels (RGB), 6 is the number of filters,
-        # 5 is the size of the filter
-        self.conv1 = nn.Conv2d(3, 6, 5) # input channel, neurons, output
+    # Defines neural network layers which are tailored to learn from the dataset
+    def __init__(self):
+        super().__init__()
+        # define layers of the neural network
+        self.layers = nn.Sequential( # Sequential causes the data to be fed through the layers in the order written
+            nn.Flatten(), # flattens the data (turns it into a 1D array)
+            # here, we have the data represented in a way that the computer can understand (a 1D array with 64 values)
+            # following are three dense layers
+            nn.Linear (32 * 32 * 3, 64), # 32 * 32 (x and y of image) * 3 (RGB) = 3072. 64 is the number of neurons in the layer
+            # at this stage, we have taken the data from the image and turned it into a 1D array with 64 values using the
+            # Flatten() function previousy.
+            # This 1D array is given to the first layer. As the input aray has 3072 different elements, 
+            # this is used as the value of the first argument.
+            # The second argument is where the input data is going to be stored in. In this example, we will
+            # store the data in 64 different neurons. 64 is chosen because it is a power of 2, which is useful for
+            # computers to process. you can use whatever amount you would like.
+            # So now that we have stored the data in our 64 neurons, we can perform an operation on it to learn
+            # about it's characteristics (how everything relates to eachother)
+            nn.ReLU(), # this is a ReLU function which is a way ti actvate neurons
+            # it is not important to understand how it works, rather what goes in and what goes out
+            # what goes in is neurons which have data in them (this was done with nn.Linear())
+            # what goes out is the computer's interpretation of how everything links between the neurons. in more technical
+            # terms, the computer will change parameters and weights to simulate learning
+            nn.Linear(64, 32), # this is our "hidden" layer. no idea, dont need to have an idea. just look at what goes
+            # in and what goes out
+            # in: reading 64 neurons
+            # out: reading the values of those neurons (and weights?) in 32 neurons
+            # again, 32 is a power of 2, which is useful for computers to process. no other reason
+            nn.ReLU(), # do some more thinking/learing
+            nn.Linear(32, 10) # this is our output layer
+            # the computer has learnt from the data through two layers of neurons. in other words, it has 
+            # only learnt a small amount of details about the data
+            # in: the amount of neurons in the previous layer and their values
+            # out: the amount of classes we want to classify the data into. in this case it is 10 different types
+            # of vehicles and animals
+        )
 
-        self.pool = nn.MaxPool2d(2, 2) 
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
         # each of these lines defines a layer of the neural network
         # each layer of a neural network will learn specific things and about parts of the
         # dataset
@@ -55,13 +78,9 @@ class Net(nn.Module):  # This model is specifically tailored for a dataset (CIFA
         # but also that is is a german shepard
 
     # defines how it "progresses" (what parameters are going to change and how)
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        return self.fc3(x)
+    def forward(self, x):
+        return self.layers(x)
+        # how we react to input data.
 
     # backward is already defined in nn.Module, so you don't need to define it
     # what backward does is it calculates the loss and then adjusts the parameters of the
@@ -86,7 +105,7 @@ def train(net, trainloader, epochs):  # trains the model to classify the data
             # be added to the gradients of the current image which will make learning
             # impossible
 
-            loss = criterion(net(images.to(DEVICE)), labels.to(DEVICE))
+            loss = criterion(net(images.to(device)), labels.to(device))
             # calculates the current loss when using the parameters of the neural network
             # by comparing the images to the labels
 
@@ -108,8 +127,8 @@ def test(net, testloader):
     with torch.no_grad():
         # goes through the test set and compares the predicted values to the actual values
         for images, labels in tqdm(testloader):
-            outputs = net(images.to(DEVICE))  # predicts values
-            labels = labels.to(DEVICE)  # loads the actual values
+            outputs = net(images.to(device))  # predicts values
+            labels = labels.to(device)  # loads the actual values
             loss += criterion(outputs, labels).item()
             # calculates the difference betweenthe predicted and actual values (how correct
             # the model is)
@@ -127,7 +146,9 @@ def load_data():
     # train set and dataset are split from the same dataset
     trainset = CIFAR10("./data", train=True, download=True, transform=trf)
     testset = CIFAR10("./data", train=False, download=True, transform=trf)
-    return DataLoader(trainset, batch_size=32, shuffle=True), DataLoader(testset)
+    testloader = DataLoader(trainset, batch_size=32, shuffle=True)
+    testset = DataLoader(testset)
+    return testloader, testset
     # The first thing that is returned is the training set, used to train the model
     # (the model looks at the characteristics, makes a predciton, and then compares
     # it to the actual value. From the loss and accuracy, it will then adjust the
@@ -151,8 +172,11 @@ def load_data():
 # #############################################################################
 
 # Load model and data (simple CNN, CIFAR-10)
-net = Net().to(DEVICE)
+net = MLP().to(device)
+print(net)
 trainloader, testloader = load_data()
+print("trainloader", trainloader.dataset)
+print("testloader", testloader.dataset)
 
 # Define Flower client (nothing to do with PyTorch/Deep learning, just federated learning)
 
