@@ -44,3 +44,8 @@ Creates docker containers for server and clients connected to a network
 ### Linux
 
 - [python3](https://www.python.org/downloads/)
+
+## TODO
+
+- [ ] Implement the NSL-KDD dataset
+- [ ] Mirror the arguments of the CIFAR10 class for the NSL-KDD class (e.g. NSLKDD("./data" (location of csv's), train=True (whether to use train csv or test csv), any more?))

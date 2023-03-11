@@ -8,10 +8,12 @@ import flwr as fl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torchvision.datasets import CIFAR10
 from torchvision.transforms import Compose, Normalize, ToTensor
 from tqdm import tqdm
+import numpy as np
+import math
 
 
 # #############################################################################
@@ -99,6 +101,8 @@ def train(net, trainloader, epochs):  # trains the model to classify the data
     criterion = torch.nn.CrossEntropyLoss()  # loss calculation function
     optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     for _ in range(epochs):  # one epoch is one pass through the dataset
+        currentloss = 0.0
+
         for images, labels in tqdm(trainloader):
             optimizer.zero_grad()
             # this is required because otherwise the gradients from the previous image will
@@ -119,6 +123,8 @@ def train(net, trainloader, epochs):  # trains the model to classify the data
             # the gradient is then used to calculate the step size (the amount that the
             # parameters are changed by)
 
+            # Prints current loss every 500 mini-batches
+            
 
 def test(net, testloader):
     """Validate the model on the test set."""
@@ -136,19 +142,54 @@ def test(net, testloader):
     accuracy = correct / len(testloader.dataset)
     return loss, accuracy
 
+# Imports the KSL-KDD dataset
+class KSLKDD(Dataset):
+    # i need create a custom to be used when importing the dataset
+    # this class needs an init, len, and getitem function
+    # the init will be used to initialise the directory containing the csv's 
+    # len is fairly simple as it simply returns the length of samples (e.g. records/rows)
+    # getitem is used to get the data from the csv's depending on the index
+    #   it will be used to get a single sample from the dataset to be used in training and testing
+    #   it will return informaion about the data (features and class)
+
+    def __init__(self):
+        # data loading
+        # xy = np.loadtxt('./data/NSL-KDD/KDDTrain+_20Percent.arff', delimiter=',', dtype=np.float32, skiprows=44)
+        xy = np.loadtxt('test.csv', delimiter=',', dtype=np.float32, skiprows=1)
+        # location of data
+        # delimiter (csv so comma)
+        # data type of dataset (am confused because there are multiple datatypes per sample)
+        self.x = torch.from_numpy(xy[:, :-1])
+        self.y = torch.from_numpy(xy[:, [-1]])
+        # :, all samples
+        # :-1 all columns apart from end (features)
+        # [-1] last column (class)
+        # torch.from_numpy() converts the numpy array to a tensor
+        self.n_samples = xy.shape[0]
+        # xy.shape[0] first dimention is the number of samples
+
+    def __getitem__(self, index):
+        # get a sample
+        return (self.x[index], self.y[index])
+
+    def __len__(self):
+        # return the length of the dataset
+        return self.n_samples
 
 def load_data():
     """Load CIFAR-10 (training and test set)."""
-    trf = Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    # trf = Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
     # normalise is used so that the data isn't all over the place (this can have a problem
     # with deep learning when learning the characteristics of a dataset)
 
     # train set and dataset are split from the same dataset
-    trainset = CIFAR10("./data", train=True, download=True, transform=trf)
-    testset = CIFAR10("./data", train=False, download=True, transform=trf)
-    testloader = DataLoader(trainset, batch_size=32, shuffle=True)
-    testset = DataLoader(testset)
-    return testloader, testset
+    
+    # trainset = CIFAR10("./data", train=True, download=True, transform=ToTensor())
+    # testset = CIFAR10("./data", train=False, download=True, transform=ToTensor())
+    # trainloader = DataLoader(trainset, batch_size=8, shuffle=True)
+    # testloader = DataLoader(testset)
+    # return trainloader, testloader
+    
     # The first thing that is returned is the training set, used to train the model
     # (the model looks at the characteristics, makes a predciton, and then compares
     # it to the actual value. From the loss and accuracy, it will then adjust the
@@ -166,17 +207,70 @@ def load_data():
     # in other words, shuffling the dataset ensures that the model is learning just the
     # characteristics of the dataset, not the order of the dataset
 
+    # Load NSL-KDD dataset
+    # About the dataset: https://www.unb.ca/cic/datasets/nsl.html
+
+    dataset = KSLKDD() # creates an instance of the dataset
+    dataloader = DataLoader(dataset=dataset, batch_size=5, shuffle=True, num_workers=2)
+    return dataloader
+    # loads the data
+    # dataset=dataset, the dataset to be loaded
+    # batch_size=4, the number to device the samples by (e.g. there will be 4 batches)
+    # shuffle=True, shuffles the order of samples
+    # num_workers=2, will help speed up the loading
+
+    # dataiter = iter(dataloader) # allows your to iterate through the dataset in batches
+    # data = dataiter._next_data() # loads a single batch
+    # features, labels = data
+    # print(data) # print a single batch (features and labels)
+    # print(data[0]) # print the features of the batch (format is [features, labels])
+    # # features = data[0] and labels = data[1]
+    # print(data[0][1]) # print the second sample of in the batch of features
+    # print(data[0][1][2]) # print the third feature of the second sample in the batch of features
+    # # data[features][samples][a feature of one of the samples]
+    # data = dataiter._next_data()
+    # print(data) # prints the next batch
+    # # etc...
+
 
 # #############################################################################
 # 2. Federation of the pipeline with Flower
 # #############################################################################
 
+# Iterate through dataset
+data = load_data() # loads the features and samples into data (data will now be a representation of
+# test.csv as a tensor)
+num_epochs = 2 # the amount of times we want to go over the data
+total_samples = len(data) # teh total number of samples
+# lem(data) will use the __len__ function in the dataset class to return the number of samples
+n_iterations = math.ceil(total_samples / 5) # this is calculated from the total number of samples (which 
+# is calculated in the __len__ function in the dataset class) divided by the batch size (which is 4)
+# reminder: an iteration is the number of passes per epoch. each pass involves batch_size number of samples
+# so if there are 100 samples and the batch size is 4, then there will be 25 iterations (100/4=25)
+print(f"Samples: {total_samples}, Iterations: {n_iterations}")
+
+for epoch in range(num_epochs): # iterate over the data [epoch] times
+    for i, sample in enumerate(data): # for each sample in the batch...
+        # i: index/counter of current sample
+        # sample: contains the features and labels of sample (data[features. labels])
+        # enumerate(data) returns (counter/index, element) - it simple makes each element of "data"
+        # to be iteraterated over using a for loop
+        # another way of doing it would be to (everything simplified as much as possible):
+        # for epoch in range(num_epochs):
+        #     for i in range(total_samples): # for each sample
+        #         for sample in data[i]:
+        #             features = sample[0]
+        #             labels = sample[1]
+        #             if (i+1) % 50 == 0:
+        #                 print(f"epoch: {epoch+1}/{num_epochs}, step (sample): {i+1}/{total_samples}")
+        #             do stuff
+        features, labels = sample
+        if (i+1) % 50 == 0:
+            print(f"epoch: {epoch+1}/{num_epochs}, iteration: {(i+1)/5}/{n_iterations}, features: {features.shape}")
+
 # Load model and data (simple CNN, CIFAR-10)
 net = MLP().to(device)
-print(net)
 trainloader, testloader = load_data()
-print("trainloader", trainloader.dataset)
-print("testloader", testloader.dataset)
 
 # Define Flower client (nothing to do with PyTorch/Deep learning, just federated learning)
 
