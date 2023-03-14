@@ -1,4 +1,4 @@
-### there is a more readable version of this in the guide (this version is just optimised) ###
+### A half client, half tutorial (for me) ###
 
 # Import the stuff you need
 import warnings
@@ -23,7 +23,8 @@ import math
 warnings.filterwarnings("ignore", category=UserWarning)
 # telling what processor to use (where it is and where it is processed)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using {device} device")
+device_count = torch.cuda.device_count()
+print(f"Using {device_count} {device} device(s)")
 
 
 class MLP(nn.Module):  # This model is specifically tailored for a dataset (CIFAR-10)
@@ -156,11 +157,12 @@ class KSLKDD(Dataset):
         # data loading
         # xy = np.loadtxt('./data/NSL-KDD/KDDTrain+_20Percent.arff', delimiter=',', dtype=np.float32, skiprows=44)
         xy = np.loadtxt('test.csv', delimiter=',', dtype=np.float32, skiprows=1)
+        # note: here, you may want to use pandas instead if you are looking to alter specific columns
         # location of data
         # delimiter (csv so comma)
         # data type of dataset (am confused because there are multiple datatypes per sample)
-        self.x = torch.from_numpy(xy[:, :-1])
-        self.y = torch.from_numpy(xy[:, [-1]])
+        self.x = torch.from_numpy(xy[:, :-1]).float()
+        self.y = torch.from_numpy(xy[:, [-1]]).float()
         # :, all samples
         # :-1 all columns apart from end (features)
         # [-1] last column (class)
@@ -168,9 +170,20 @@ class KSLKDD(Dataset):
         self.n_samples = xy.shape[0]
         # xy.shape[0] first dimention is the number of samples
 
+        # you should define the transform somewhere in here (have done so with torch.from_numpy)
+
     def __getitem__(self, index):
+        # you should apply the transform somewhere in here
+        # although isnt it more effeicient to tranform the entire dataset once rather than one at a time?
+        # it is, but if you want to change a sample depending on some condition then this is where it happens
+        #   e.g. i have some strings which i want to convert to numbers, do that here
+        #   again, couldn't i just do that in the init by going through each sample and changing it before
+        #   converting it to a tensor?
+        #   answer: you could, but this is actually more effeicient because it is performing the same
+        #   operation on each sample, like you would do in init, but only for samples you need
+
         # get a sample
-        return (self.x[index], self.y[index])
+        return (self.x[index], self.y[index]) # must return tensor, numpy, etc.
 
     def __len__(self):
         # return the length of the dataset
@@ -218,6 +231,12 @@ def load_data():
     # batch_size=4, the number to device the samples by (e.g. there will be 4 batches)
     # shuffle=True, shuffles the order of samples
     # num_workers=2, will help speed up the loading
+    # if we wanted, we could simply call __getitem__ manually when feeding data to the model
+    # but using a datalodader is far easier
+    
+    # note about batches: if you have multiple gpus, you can split the batch across the gpus
+    #  e.g. if you have 4 gpus and a batch size of 4, each gpu will get a batch of 1
+    #  so if you ever have multiple gpus, make sure that your batch size is a multiple of the number of gpus
 
     # dataiter = iter(dataloader) # allows your to iterate through the dataset in batches
     # data = dataiter._next_data() # loads a single batch
