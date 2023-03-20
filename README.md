@@ -4,7 +4,7 @@ This example demonstrates a simple federated learning (FL) environment implement
 
 ## Prerequisites
 
-This example was developed in Windows, however, it \*_should_ work in both Windows and Linux.
+This example was developed in Windows, however, it _should_ work in both Windows and Linux.
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [python3](https://www.python.org/downloads/)
