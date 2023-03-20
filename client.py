@@ -31,7 +31,7 @@ class MLP(nn.Module):  # This model is specifically tailored for a dataset (CIFA
     """Model (simple CNN adapted from 'PyTorch: A 60 Minute Blitz')"""
 
     # Defines neural network layers which are tailored to learn from the dataset
-    def __init__(self):
+    def __init__(self): # tweaked over time
         super().__init__()
         # define layers of the neural network
         self.layers = nn.Sequential( # Sequential causes the data to be fed through the layers in the order written
@@ -81,13 +81,20 @@ class KSLKDD(Dataset):
 
     def __init__(self):
         # data loading
-        xy = np.loadtxt('test.csv', delimiter=',', dtype=np.float32, skiprows=1)
-        self.x = torch.from_numpy(xy[:, :-1]).float()
-        self.y = torch.from_numpy(xy[:, [-1]]).float()
+        # import csv
+        # select the columns i want
+        # declare how to tranform
+
+        xy = np.loadtxt('./data/NSL-KDD/KDDTrain+_20Percent.arff', delimiter=',', dtype=np.float32, skiprows=44)
+        self.x = torch.from_numpy(xy[:, :-1]).float() # 40 features
+        self.y = torch.from_numpy(xy[:, [-1]]).float() # 1 label
         self.n_samples = xy.shape[0]
+        print(f"Loaded {self.n_samples} samples")
 
     def __getitem__(self, index):
         # get a sample
+        # transform the data
+        # e.g. if tcp, map to 1, if udp, map to 2, etc.
         return (self.x[index], self.y[index])
 
     def __len__(self):
@@ -100,7 +107,7 @@ def load_data():
     # About the dataset: https://www.unb.ca/cic/datasets/nsl.html
 
     dataset = KSLKDD() # creates an instance of the dataset
-    dataloader = DataLoader(dataset=dataset, batch_size=5, shuffle=True, num_workers=2)
+    dataloader = DataLoader(dataset=dataset, batch_size=8, shuffle=False, num_workers=2)
     return dataloader
 
 
@@ -112,7 +119,7 @@ def load_data():
 data = load_data() # loads the dataset
 num_epochs = 2 # the amount of times we want to go over the data
 total_samples = len(data) # the total number of samples
-n_iterations = math.ceil(total_samples / 5) # this is calculated from the total number of samples (which 
+n_iterations = math.ceil(total_samples / 8) # this is calculated from the total number of samples
 
 print(f"Samples: {total_samples}, Iterations: {n_iterations}")
 
