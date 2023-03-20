@@ -27,7 +27,7 @@ services:
               capabilities: [gpu]
     volumes:
       - ../:/app
-    depends_on: # Ensures that server has correct IP address
+    depends_on:
       server:
         condition: service_healthy
     links:
