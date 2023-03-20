@@ -1,51 +1,40 @@
-# TRIST
+# Federated Learning implemented into Docker
 
-The Threat Research and Intelligence Sharing Testbed aims to make CPS threat research easy. Using docker makes testing easily deployable and adaptable to your needs.
+This example demonstrates a simple federated learning (FL) environment implemented into Docker. The deep learning model is a multilayer perceptron (MLP) to simplify training.
 
-## About
+## Prerequisites
 
-Contains the resources required to simulate federeated learning implemented with docker.
-You will require wsl and docker desktop to run this example.
+This example was developed in Windows, however, it \*_should_ work in both Windows and Linux.
 
-If you would like to use your compatable nvidia GPU for computing, install the [nvidia toolkit](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local) on your WSL version.
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [python3](https://www.python.org/downloads/)
+
+If you would like to use your compatable nvidia GPU for computing, install the [nvidia toolkit](https://developer.nvidia.com/cuda-downloads) on your Linux distribution.
 
 Enjoy!
 
 ## How to
 
-1. Execute run.sh
+1. Execute build.sh: ensures that the required Docker images are built
 
    ```bash
-   $ bash run.sh
+   $ bash build.sh
    ```
 
-2. Watch as your images are prepared and clients are started!
+2. Execute the docker-compose file: builds the FL environment and begins learning
+
+   ```bash
+   $ cd learn
+   $ docker-compose up -d
+   ```
+
+You should now have three containers running:
+
+- One container acting as the FL server
+- Two containers acting as the FL clients
 
 ---
 
-Pro tip: use the flag -s (or --skip-build) to skip building!
-
-Pro'er tip: DON'T do this if you see an error :)
-
-### run.sh
-
-Creates docker containers for server and clients connected to a network
-
-    ``` bash
-    bash run.sh [num of desired clients]
-    ```
-
-## Prerequisites
-
-### Windows
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-
-### Linux
-
-- [python3](https://www.python.org/downloads/)
-
 ## TODO
 
-- [ ] Implement the NSL-KDD dataset
-- [ ] Mirror the arguments of the CIFAR10 class for the NSL-KDD class (e.g. NSLKDD("./data" (location of csv's), train=True (whether to use train csv or test csv), any more?))
+- [ ] Upload the Docker images so that they are available without needing to build
