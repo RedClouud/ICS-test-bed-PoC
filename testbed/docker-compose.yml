@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  
+  server: # Takes trained models from CPS to produce and distribute global model
+    image: busybox:latest
+    networks: 
+      FL:
+  
+  CPS-1: # Takes data to train on from component-set-1
+    image: busybox:latest
+    networks: 
+      FL:
+      CPS-1:
+  
+  CPS-2: # Takes data to train on from component-set-2
+    image: busybox:latest
+    networks: 
+      FL:
+      CPS-2:
+  
+  # component-set-1: # Produces data for CPS-1
+  #   image: busybox:latest
+  #   networks: 
+  #     CPS-1:
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 2
+  
+  # component-set-2: # Produces data for CPS-2
+  #   image: busybox:latest
+  #   networks: 
+  #     CPS-2:
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 2
+
+networks:
+  FL: # Allows for model parameters to be shared between CPS and server (note: each CPS should NOT communicate with each other, only with server)
+
+  CPS-1: # Allows for isolated communication between CPS-1 and it's component-set
+
+  CPS-2: # Allows for isolated communication between CPS-2 and it's component-set
