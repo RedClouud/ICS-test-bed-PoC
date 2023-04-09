@@ -1,5 +1,7 @@
 data
-learn
+testbed
 .gitignore
 build.sh
-README.md
+*.md
+Dockerfile*
+requirements*
