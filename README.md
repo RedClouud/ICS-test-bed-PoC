@@ -1,15 +1,18 @@
 ## About TRIST
 TRIST is an open-source Cyber Physical System (CPS) Threat Research and Intelligence Sharing Testbed.
-TRIST aims to make CPS simulation dataset development easy by providing the following features:
+TRIST aims to make CPS simulation and dataset development easy by providing the following features:
 - CPS simulation
 - CPS dataset development and testing
 - CPS attack simulation
 - Full data analytics tools
+
 It uses multiple technolgies to achieve this including [ELK](https://www.elastic.co/), [Docker](https://www.docker.com/), [Flower](https://flower.dev/), and more.
 
 TRIST is part inspired by [MiniCPS](https://minicps.readthedocs.io/), a CPS simulation tool built on top of [Mininet](http://mininet.org/). However, TRIST takes this one step further by implementing any CPS into portable and instantly deployable Docker containers. This means no installtion, configuration, or setup is requried. Simply download the Docker image and press go. It is then as simple as accessing the TRIST Dashboard via a web browser to access all functionality.
 
 We hope you enjoy using TRIST. 
+
+---
 
 # Federated Learning implemented into Docker
 
