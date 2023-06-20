@@ -2,9 +2,6 @@
 """
 swat-s1 plc2
 """
-while True:
-    print("plc2.py")
-exit (0)
 
 from minicps.devices import PLC
 from utils import PLC2_DATA, STATE, PLC2_PROTOCOL
@@ -57,9 +54,10 @@ class SwatPLC2(PLC):
 if __name__ == "__main__":
 
     # notice that memory init is different form disk init
+
     plc2 = SwatPLC2(
         name='plc2',
-        state=STATE,
+        state=STATE, # plc state, from sqlite database
         protocol=PLC2_PROTOCOL,
         memory=PLC2_DATA,
         disk=PLC2_DATA)

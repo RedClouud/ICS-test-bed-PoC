@@ -1,0 +1,258 @@
+2023-04-11 12:28:48,395 - mininet - DEBUG - *** errRun: ['grep', '-c', 'processor', '/proc/cpuinfo'] 
+
+2023-04-11 12:28:48,396 - mininet - DEBUG - 16
+  0
+2023-04-11 12:28:48,397 - mininet - DEBUG - *** Setting resource limits
+
+2023-04-11 12:28:48,397 - mininet - INFO - *** Creating network
+
+2023-04-11 12:28:48,397 - mininet - INFO - *** Adding controller
+
+2023-04-11 12:28:48,397 - mininet - DEBUG - *** errRun: ['which', 'controller'] 
+
+2023-04-11 12:28:48,398 - mininet - DEBUG -   1
+2023-04-11 12:28:48,399 - mininet - DEBUG - *** errRun: ['which', 'ovs-controller'] 
+
+2023-04-11 12:28:48,399 - mininet - DEBUG -   1
+2023-04-11 12:28:48,400 - mininet - DEBUG - *** errRun: ['which', 'test-controller'] 
+
+2023-04-11 12:28:48,400 - mininet - DEBUG -   1
+2023-04-11 12:28:48,401 - mininet - DEBUG - *** errRun: ['which', 'ovs-testcontroller'] 
+
+2023-04-11 12:28:48,401 - mininet - DEBUG -   1
+2023-04-11 12:35:44,372 - mininet - DEBUG - *** errRun: ['grep', '-c', 'processor', '/proc/cpuinfo'] 
+
+2023-04-11 12:35:44,373 - mininet - DEBUG - 16
+  0
+2023-04-11 12:35:44,374 - mininet - DEBUG - *** Setting resource limits
+
+2023-04-11 12:35:44,374 - mininet - INFO - *** Creating network
+
+2023-04-11 12:35:44,374 - mininet - INFO - *** Adding controller
+
+2023-04-11 12:35:44,374 - mininet - DEBUG - *** errRun: ['which', 'controller'] 
+
+2023-04-11 12:35:44,375 - mininet - DEBUG -   1
+2023-04-11 12:35:44,375 - mininet - DEBUG - *** errRun: ['which', 'ovs-controller'] 
+
+2023-04-11 12:35:44,376 - mininet - DEBUG -   1
+2023-04-11 12:35:44,376 - mininet - DEBUG - *** errRun: ['which', 'test-controller'] 
+
+2023-04-11 12:35:44,377 - mininet - DEBUG -   1
+2023-04-11 12:35:44,377 - mininet - DEBUG - *** errRun: ['which', 'ovs-testcontroller'] 
+
+2023-04-11 12:35:44,378 - mininet - DEBUG -   1
+2023-04-11 12:38:22,780 - mininet - DEBUG - *** errRun: ['grep', '-c', 'processor', '/proc/cpuinfo'] 
+
+2023-04-11 12:38:22,781 - mininet - DEBUG - 16
+  0
+2023-04-11 12:38:22,781 - mininet - DEBUG - *** Setting resource limits
+
+2023-04-11 12:38:22,782 - mininet - INFO - *** Creating network
+
+2023-04-11 12:38:22,782 - mininet - INFO - *** Adding controller
+
+2023-04-11 12:38:22,782 - mininet - DEBUG - *** errRun: ['which', 'controller'] 
+
+2023-04-11 12:38:22,783 - mininet - DEBUG -   1
+2023-04-11 12:38:22,783 - mininet - DEBUG - *** errRun: ['which', 'ovs-controller'] 
+
+2023-04-11 12:38:22,784 - mininet - DEBUG -   1
+2023-04-11 12:38:22,784 - mininet - DEBUG - *** errRun: ['which', 'test-controller'] 
+
+2023-04-11 12:38:22,785 - mininet - DEBUG -   1
+2023-04-11 12:38:22,785 - mininet - DEBUG - *** errRun: ['which', 'ovs-testcontroller'] 
+
+2023-04-11 12:38:22,786 - mininet - DEBUG -   1
+2023-04-11 12:39:36,230 - mininet - DEBUG - *** errRun: ['grep', '-c', 'processor', '/proc/cpuinfo'] 
+
+2023-04-11 12:39:36,231 - mininet - DEBUG - 16
+  0
+2023-04-11 12:39:36,232 - mininet - DEBUG - *** Setting resource limits
+
+2023-04-11 12:39:36,232 - mininet - INFO - *** Creating network
+
+2023-04-11 12:39:36,232 - mininet - INFO - *** Adding controller
+
+2023-04-11 12:39:36,232 - mininet - DEBUG - *** errRun: ['which', 'controller'] 
+
+2023-04-11 12:39:36,233 - mininet - DEBUG - /usr/bin/controller
+  0
+2023-04-11 12:39:36,233 - mininet - DEBUG - *** errRun: ['which', 'mnexec'] 
+
+2023-04-11 12:39:36,234 - mininet - DEBUG - /usr/bin/mnexec
+  0
+2023-04-11 12:39:36,235 - mininet - DEBUG - *** errRun: ['which', 'ifconfig'] 
+
+2023-04-11 12:39:36,235 - mininet - DEBUG - /usr/sbin/ifconfig
+  0
+2023-04-11 12:39:36,236 - mininet - DEBUG - _popen ['mnexec', '-cd', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:c0'] 1276
+2023-04-11 12:39:36,238 - mininet - DEBUG - *** c0 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 12:39:36,238 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 12:39:36,239 - mininet - DEBUG - 
+2023-04-11 12:39:36,239 - mininet - DEBUG - *** errRun: ['which', 'telnet'] 
+
+2023-04-11 12:39:36,240 - mininet - DEBUG - /usr/bin/telnet
+  0
+2023-04-11 12:39:36,240 - mininet - DEBUG - *** c0 : ('echo A | telnet -e A 127.0.0.1 6653',)
+
+2023-04-11 12:39:36,242 - mininet - DEBUG - Telnet escape character is 'A'.
+Trying 127.0.0.1...
+
+2023-04-11 12:39:36,242 - mininet - DEBUG - telnet: Unable to connect to remote host: Connection refused
+
+2023-04-11 12:39:36,242 - mininet - DEBUG - 
+2023-04-11 12:39:36,242 - mininet - INFO - *** Adding hosts:
+
+2023-04-11 12:39:36,243 - mininet - DEBUG - *** errRun: ['which', 'mnexec'] 
+
+2023-04-11 12:39:36,244 - mininet - DEBUG - /usr/bin/mnexec
+  0
+2023-04-11 12:39:36,244 - mininet - DEBUG - *** errRun: ['which', 'ifconfig'] 
+
+2023-04-11 12:39:36,245 - mininet - DEBUG - /usr/sbin/ifconfig
+  0
+2023-04-11 12:39:36,245 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:attacker'] 1283
+2023-04-11 12:39:36,248 - mininet - DEBUG - *** attacker : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 12:39:36,248 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 12:39:36,248 - mininet - DEBUG - 
+2023-04-11 12:39:36,248 - mininet - INFO - attacker 
+2023-04-11 12:39:36,249 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc1'] 1285
+2023-04-11 12:39:36,251 - mininet - DEBUG - *** plc1 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 12:39:36,252 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 12:39:36,252 - mininet - DEBUG - 
+2023-04-11 12:39:36,252 - mininet - INFO - plc1 
+2023-04-11 12:39:36,253 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc2'] 1287
+2023-04-11 12:39:36,255 - mininet - DEBUG - *** plc2 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 12:39:36,255 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 12:39:36,256 - mininet - DEBUG - 
+2023-04-11 12:39:36,256 - mininet - INFO - plc2 
+2023-04-11 12:39:36,257 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc3'] 1289
+2023-04-11 12:39:36,259 - mininet - DEBUG - *** plc3 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 12:39:36,259 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 12:39:36,260 - mininet - DEBUG - 
+2023-04-11 12:39:36,260 - mininet - INFO - plc3 
+2023-04-11 12:39:36,260 - mininet - INFO - 
+*** Adding switches:
+
+2023-04-11 12:39:36,260 - mininet - DEBUG - *** errRun: ['which', 'ovs-vsctl'] 
+
+2023-04-11 12:39:36,261 - mininet - DEBUG - /usr/bin/ovs-vsctl
+  0
+2023-04-11 12:39:36,261 - mininet - DEBUG - *** errRun: ['ovs-vsctl', '-t', '1', 'show'] 
+
+2023-04-11 12:39:36,263 - mininet - DEBUG -  ovs-vsctl: unix:/var/run/openvswitch/db.sock: database connection failed (No such file or directory)
+ 1
+2023-04-11 12:39:36,263 - mininet - ERROR - ovs-vsctl: unix:/var/run/openvswitch/db.sock: database connection failed (No such file or directory)
+ovs-vsctl exited with code 1
+*** Error connecting to ovs-db with ovs-vsctl
+Make sure that Open vSwitch is installed, that ovsdb-server is running, and that
+"ovs-vsctl show" works correctly.
+You may wish to try "service openvswitch-switch start".
+
+2023-04-11 13:07:55,326 - mininet - DEBUG - *** errRun: ['grep', '-c', 'processor', '/proc/cpuinfo'] 
+
+2023-04-11 13:07:55,328 - mininet - DEBUG - 16
+  0
+2023-04-11 13:07:55,328 - mininet - DEBUG - *** Setting resource limits
+
+2023-04-11 13:07:55,328 - mininet - INFO - *** Creating network
+
+2023-04-11 13:07:55,328 - mininet - INFO - *** Adding controller
+
+2023-04-11 13:07:55,329 - mininet - DEBUG - *** errRun: ['which', 'controller'] 
+
+2023-04-11 13:07:55,330 - mininet - DEBUG - /usr/bin/controller
+  0
+2023-04-11 13:07:55,330 - mininet - DEBUG - *** errRun: ['which', 'mnexec'] 
+
+2023-04-11 13:07:55,331 - mininet - DEBUG - /usr/bin/mnexec
+  0
+2023-04-11 13:07:55,331 - mininet - DEBUG - *** errRun: ['which', 'ifconfig'] 
+
+2023-04-11 13:07:55,332 - mininet - DEBUG - /usr/sbin/ifconfig
+  0
+2023-04-11 13:07:55,333 - mininet - DEBUG - _popen ['mnexec', '-cd', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:c0'] 111
+2023-04-11 13:07:55,335 - mininet - DEBUG - *** c0 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 13:07:55,336 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 13:07:55,337 - mininet - DEBUG - 
+2023-04-11 13:07:55,337 - mininet - DEBUG - *** errRun: ['which', 'telnet'] 
+
+2023-04-11 13:07:55,338 - mininet - DEBUG - /usr/bin/telnet
+  0
+2023-04-11 13:07:55,338 - mininet - DEBUG - *** c0 : ('echo A | telnet -e A 127.0.0.1 6653',)
+
+2023-04-11 13:07:55,343 - mininet - DEBUG - Telnet escape character is 'A'.
+Trying 127.0.0.1...
+
+2023-04-11 13:07:55,344 - mininet - DEBUG - telnet: Unable to connect to remote host: Connection refused
+
+2023-04-11 13:07:55,345 - mininet - DEBUG - 
+2023-04-11 13:07:55,345 - mininet - INFO - *** Adding hosts:
+
+2023-04-11 13:07:55,345 - mininet - DEBUG - *** errRun: ['which', 'mnexec'] 
+
+2023-04-11 13:07:55,346 - mininet - DEBUG - /usr/bin/mnexec
+  0
+2023-04-11 13:07:55,346 - mininet - DEBUG - *** errRun: ['which', 'ifconfig'] 
+
+2023-04-11 13:07:55,347 - mininet - DEBUG - /usr/sbin/ifconfig
+  0
+2023-04-11 13:07:55,348 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:attacker'] 118
+2023-04-11 13:07:55,350 - mininet - DEBUG - *** attacker : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 13:07:55,350 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 13:07:55,350 - mininet - DEBUG - 
+2023-04-11 13:07:55,351 - mininet - INFO - attacker 
+2023-04-11 13:07:55,351 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc1'] 120
+2023-04-11 13:07:55,353 - mininet - DEBUG - *** plc1 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 13:07:55,353 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 13:07:55,354 - mininet - DEBUG - 
+2023-04-11 13:07:55,354 - mininet - INFO - plc1 
+2023-04-11 13:07:55,355 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc2'] 122
+2023-04-11 13:07:55,357 - mininet - DEBUG - *** plc2 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 13:07:55,357 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 13:07:55,357 - mininet - DEBUG - 
+2023-04-11 13:07:55,357 - mininet - INFO - plc2 
+2023-04-11 13:07:55,358 - mininet - DEBUG - _popen ['mnexec', '-cdn', 'env', 'PS1=\x7f', 'bash', '--norc', '--noediting', '-is', 'mininet:plc3'] 124
+2023-04-11 13:07:55,360 - mininet - DEBUG - *** plc3 : ('unset HISTFILE; stty -echo; set +m',)
+
+2023-04-11 13:07:55,360 - mininet - DEBUG - unset HISTFILE; stty -echo; set +m
+
+2023-04-11 13:07:55,361 - mininet - DEBUG - 
+2023-04-11 13:07:55,361 - mininet - INFO - plc3 
+2023-04-11 13:07:55,361 - mininet - INFO - 
+*** Adding switches:
+
+2023-04-11 13:07:55,361 - mininet - DEBUG - *** errRun: ['which', 'ovs-vsctl'] 
+
+2023-04-11 13:07:55,362 - mininet - DEBUG - /usr/bin/ovs-vsctl
+  0
+2023-04-11 13:07:55,362 - mininet - DEBUG - *** errRun: ['ovs-vsctl', '-t', '1', 'show'] 
+
+2023-04-11 13:07:55,364 - mininet - DEBUG -  ovs-vsctl: unix:/var/run/openvswitch/db.sock: database connection failed (No such file or directory)
+ 1
+2023-04-11 13:07:55,364 - mininet - ERROR - ovs-vsctl: unix:/var/run/openvswitch/db.sock: database connection failed (No such file or directory)
+ovs-vsctl exited with code 1
+*** Error connecting to ovs-db with ovs-vsctl
+Make sure that Open vSwitch is installed, that ovsdb-server is running, and that
+"ovs-vsctl show" works correctly.
+You may wish to try "service openvswitch-switch start".
+

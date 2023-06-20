@@ -2,9 +2,6 @@
 """
 swat-s1 plc3
 """
-while True:
-    print("plc3.py")
-exit (0)
 
 from minicps.devices import PLC
 from utils import PLC3_DATA, STATE, PLC3_PROTOCOL
