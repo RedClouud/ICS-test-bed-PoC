@@ -40,8 +40,15 @@ class SwatPLC2(PLC):
 
             fit201 = float(self.get(FIT201_2))
             print "DEBUG PLC2 - get fit201: %f" % fit201
+            # self.send(FIT201_2, fit201, PLC2_ADDR) # updates value of fit201 hosted on PLC2's server (i think)
 
-            self.send(FIT201_2, fit201, PLC2_ADDR)
+            send_status = self.send(FIT201_2, fit201, PLC1_ADDR)
+            if send_status == None or TypeError:
+                print "\n\n\n\n\nDEBUG PLC2 - FAILED TO SEND FIT201 TO PLC1: FIT201_2 is not tuple\n\n\n\n\n"
+                print "fit201: ", fit201
+            else:
+                print "\n\n\n\n\nDEBUG PLC2 - send fit201: %f\n\n\n\n\n" % fit201
+
             # fit201 = self.receive(FIT201_2, PLC2_ADDR)
             # print "DEBUG PLC2 - receive fit201: ", fit201
 

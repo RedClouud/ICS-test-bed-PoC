@@ -40,8 +40,16 @@ class SwatPLC3(PLC):
 
             lit301 = float(self.get(LIT301_3))
             print "DEBUG PLC3 - get lit301: %f" % lit301
+            # self.send(LIT301_3, lit301, PLC3_ADDR)
 
-            self.send(LIT301_3, lit301, PLC3_ADDR)
+            send_status = self.send(LIT301_3, lit301, PLC1_ADDR)
+            print "DEBUG PLC3 - send lit301: %f" % lit301
+
+            if send_status == None or TypeError:
+                print "\n\n\n\n\nDEBUG PLC2 - FAILED TO SEND", LIT301_3, ":", lit301, "TO", PLC1_ADDR, ": LIT301_3 is not tuple"
+                print "type of LIT301_3: ", type(LIT301_3)
+            else:
+                print "\n\n\n\n\nDEBUG PLC2 - send lit301: %f\n\n\n\n\n" % lit301
 
             time.sleep(PLC_PERIOD_SEC)
             count += 1
