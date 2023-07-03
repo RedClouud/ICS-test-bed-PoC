@@ -5,6 +5,7 @@ swat-s1 plc1.py
 """
 
 from minicps.devices import PLC
+from minicps.protocols import EnipProtocol
 
 # Info about CPS and network
 from utils import PLC1_DATA, STATE, PLC1_PROTOCOL
@@ -12,6 +13,10 @@ from utils import PLC_PERIOD_SEC, PLC_SAMPLES
 from utils import IP, LIT_101_M, LIT_301_M, FIT_201_THRESH
 
 import time
+
+# For network comms
+from cpppo.server.enip.get_attribute import proxy_simple
+from cpppo import logging
 
 PLC1_ADDR = IP['plc1']
 PLC2_ADDR = IP['plc2']
@@ -29,6 +34,22 @@ FIT201_2 = ('FIT201', 2)
 MV201_1 = ('MV201', 1)
 MV201_2 = ('MV201', 2)
 # SPHINX_SWAT_TUTORIAL PLC1 LOGIC)
+
+# Request value of FIT201 from PLC2
+class PLC2Parameters(proxy_simple):
+    PARAMETERS = dict(proxy_simple.PARAMETERS,
+                      fit201_2 = proxy_simple.parameter('@22/1/1', 'REAL', 'm^3/h'),
+    )
+
+# Request value of LIT301 from PLC3
+class PLC3Parameters(proxy_simple):
+    PARAMETERS = dict(proxy_simple.PARAMETERS,
+                      fit201_2 = proxy_simple.parameter('@22/1/3', 'REAL', 'm'),
+    )
+
+PLC2_COMMS = PLC2Parameters(host=PLC2_ADDR)
+PLC3_COMMS = PLC3Parameters(host=PLC3_ADDR)
+
 
 # TODO: real value tag where to read/write flow sensor
 class SwatPLC1(PLC):
@@ -87,25 +108,53 @@ class SwatPLC1(PLC):
             # Start communicating with PLC2 and PLC3...
 
             # TODO: use it when implement raw water tank
-            # read from PLC2 (constant value)
-            fit201 = self.receive(FIT201_2, PLC2_ADDR) # Ask to PLC2 FIT201’s value float(self.get(FIT201_2)) # test to see if we can access the values from the database
-            if fit201 == "":
-                print "DEBUG PLC1 - receive fit201: None"
-                # exit(1)
-            else:
-                fit201 = float(fit201)
-                print "DEBUG PLC1 - receive fit201: %f" % fit201
-                # self.send(FIT201_1, fit201, PLC1_ADDR)
+            # Get from PLC2
+            try:
+                params = PLC2_COMMS.parameter_substitution("fit201_2")
+                value, = PLC2_COMMS.read(params)
+            except Exception as exc: print ' cool story bro'
+                # logging.warning("Access to fit201_2 at PLC2 failed: %s", exc)
+                # PLC2_COMMS.close_gateway(exc)
+                # raise
 
-            # read from PLC3
-            lit301 = self.receive(LIT301_3, PLC3_ADDR) # float(self.get(LIT301_3))
-            if lit301 == "":
-                print "DEBUG PLC1 - receive lit301: None"
-                # exit(1)
-            else:
-                lit301 = float(lit301)
-                print "DEBUG PLC1 - receive lit301: %f" % lit301
-                # self.send(LIT301_1, lit301, PLC1_ADDR)
+            fit201 = float(value[0])
+
+        
+            print "\n\nPLC2: %f" % fit201, 
+
+                        # read from PLC2 (constant value)
+
+            # fit201 = self.receive(FIT201_2, PLC2_ADDR) # Ask to PLC2 FIT201’s value float(self.get(FIT201_2)) # test to see if we can access the values from the database
+            # if fit201 == "":
+            #     print "DEBUG PLC1 - receive fit201: None"
+            #     # exit(1)
+            # else:
+            #     fit201 = float(fit201)
+            #     print "DEBUG PLC1 - receive fit201: %f" % fit201
+            #     # self.send(FIT201_1, fit201, PLC1_ADDR)
+
+            try:
+                params = PLC3_COMMS.parameter_substitution("fit201_2") # ("lit301_3")
+                value, = PLC3_COMMS.read(params)
+            except Exception as exc:
+                logging.warning("Access to lit301_3 at PLC3 failed: %s", exc)
+                PLC3_COMMS.close_gateway(exc)
+                raise
+
+            lit301 = float(value[0])
+
+        
+            print "\n\nPLC3: %f" % lit301, 
+
+            # # read from PLC3
+            # lit301 = 8 # self.receive(LIT301_3, PLC3_ADDR) # float(self.get(LIT301_3))
+            # if lit301 == "":
+            #     print "DEBUG PLC1 - receive lit301: None"
+            #     # exit(1)
+            # else:
+            #     lit301 = float(lit301)
+            #     print "DEBUG PLC1 - receive lit301: %f" % lit301
+            #     # self.send(LIT301_1, lit301, PLC1_ADDR)
 
             # Compare FIT201 with well defined thresholds and take a decision then update the state
             if fit201 <= FIT_201_THRESH or lit301 >= LIT_301_M['H']:

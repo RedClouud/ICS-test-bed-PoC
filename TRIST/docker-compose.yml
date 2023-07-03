@@ -4,9 +4,13 @@ services:
   
   # CPS network components
 
+  ###
+  # TO RUN: docker-compose up -d > [inside each plc] python2 plc[n].py (twice)
+  ###
+
   plc1:
     image: redclouud/trist:latest
-    command: bash -c "tshark -i eth0 -w /home/plc1.pcap & python2 cpppo_client.py" # plc1.py"
+    command: bash -c "tshark -i eth0 -w /home/plc1.pcap & sleep 999999" # python2 plc1.py" #  " # test Ether/IP communication
     networks: 
       TRIST:
         ipv4_address: 192.168.1.10
@@ -17,7 +21,9 @@ services:
   
   plc2:
     image: redclouud/trist:latest
-    command: bash -c "tshark -i eth0 -w /home/plc2.pcap & sleep 999999"
+    command: bash -c "tshark -i eth0 -w /home/plc2.pcap & sleep 999999" # python2 plc2.py" #  " # test Ether/IP communication 
+    # enip_server --print SCADA@22/1/1=INT[1000] TEXT@22/1/2=SSTRING[100] FLOAT@22/1/3=REAL
+    # enip_server --print FIT201:2=REAL MV201:2@22/1/1=INT[10]
     networks: 
       TRIST:
         ipv4_address: 192.168.1.20
@@ -25,21 +31,21 @@ services:
     volumes:
       - ../../../:/minicps
   
-  # plc3:
-  #   image: redclouud/trist:latest
-  #   command: bash -c "tshark -i eth0 -w /home/plc3.pcap & python2 plc3.py"
-  #   networks: 
-  #     TRIST:
-  #       ipv4_address: 192.168.1.30
-  #   privileged: true
-  #   volumes:
-  #     - ../../../:/minicps
+  plc3:
+    image: redclouud/trist:latest
+    command: bash -c "tshark -i eth0 -w /home/plc3.pcap & sleep 999999"
+    networks: 
+      TRIST:
+        ipv4_address: 192.168.1.30
+    privileged: true
+    volumes:
+      - ../../../:/minicps
   
-  # physical_process:
-  #   image: redclouud/trist:latest
-  #   command: bash -c "python2 physical_process.py"
-  #   volumes:
-  #     - ../../../:/minicps
+  physical_process:
+    image: redclouud/trist:latest
+    command: bash -c "python2 physical_process.py"
+    volumes:
+      - ../../../:/minicps
 
   # # Attacker
   # slowloris:

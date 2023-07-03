@@ -1,7 +1,0 @@
-data
-testbed
-.gitignore
-build.sh
-*.md
-Dockerfile*
-requirements*

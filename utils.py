@@ -144,7 +144,7 @@ PLC1_SERVER = {
 }
 PLC1_PROTOCOL = {
     'name': 'enip',
-    'mode': 1,
+    'mode': 0,
     'server': PLC1_SERVER
 }
 # SPHINX_SWAT_TUTORIAL PLC1 UTILS)
@@ -161,7 +161,7 @@ PLC2_SERVER = {
 }
 PLC2_PROTOCOL = {
     'name': 'enip',
-    'mode': 1,
+    'mode': 0,
     'server': PLC2_SERVER
 }
 
@@ -176,7 +176,7 @@ PLC3_SERVER = {
 }
 PLC3_PROTOCOL = {
     'name': 'enip',
-    'mode': 1,
+    'mode': 0,
     'server': PLC3_SERVER
 }
 
