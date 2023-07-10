@@ -14,42 +14,42 @@ services:
 
   plc1:
     image: redclouud/trist:latest
-    command: bash -c "python2 plc1.py"
+    command: bash -c "cd /TRIST && python2 plc1.py"
     networks: 
       TRIST:
         ipv4_address: 192.168.1.10
     privileged: true
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
     depends_on:
       - plc2
       - plc3
   
   plc2:
     image: redclouud/trist:latest
-    command: bash -c "python2 plc2.py"
+    command: bash -c "cd /TRIST && python2 plc2.py"
     networks: 
       TRIST:
         ipv4_address: 192.168.1.20
     privileged: true
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
   
   plc3:
     image: redclouud/trist:latest
-    command: bash -c "python2 plc3.py"
+    command: bash -c "cd /TRIST && python2 plc3.py"
     networks: 
       TRIST:
         ipv4_address: 192.168.1.30
     privileged: true
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
   
   t101:
     image: redclouud/trist:latest
-    command: bash -c "python2 T101.py"
+    command: bash -c "cd /TRIST && python2 T101.py"
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
     depends_on:
       - plc1
       - plc2
@@ -57,9 +57,9 @@ services:
 
   t301:
     image: redclouud/trist:latest
-    command: bash -c "python2 T301.py"
+    command: bash -c "cd /TRIST && python2 T301.py"
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
     depends_on:
       - plc1
       - plc2
@@ -67,9 +67,9 @@ services:
 
   data-collector:
     image: python:2.7
-    command: bash -c "cd minicps/examples/swat-s1/ && python2 data_collector.py"
+    command: bash -c "cd /TRIST && python2 data_collector.py"
     volumes:
-      - ../../../:/minicps
+      - ../:/TRIST
     depends_on:
       - plc1
       - plc2
