@@ -18,6 +18,9 @@ services:
     volumes:
       - ../../../:/minicps
       # - ../pcap:/home # tshark does not currently have permission to write to volumes
+    depends_on:
+      - plc2
+      - plc3
   
   plc2:
     image: redclouud/trist:latest
