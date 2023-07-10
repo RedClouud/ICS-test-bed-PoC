@@ -12,7 +12,7 @@ from minicps.devices import Tank
 
 from utils import PUMP_FLOWRATE_IN, PUMP_FLOWRATE_OUT
 from utils import TANK_HEIGHT, TANK_SECTION, TANK_DIAMETER
-from utils import LIT_101_M, RWT_INIT_LEVEL, FWT_INIT_LEVEL
+from utils import LIT_101_M, RWT_INIT_LEVEL
 from utils import STATE, PP_PERIOD_SEC, PP_PERIOD_HOURS, PP_SAMPLES
 
 import sys
@@ -60,7 +60,7 @@ class RawWaterTank(Tank):
             if int(mv101) == 1:
                 self.set(FIT101, PUMP_FLOWRATE_IN)
                 inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS
-                print "DEBUG RawWaterTank inflow: ", inflow
+                # print "DEBUG RawWaterTank inflow: ", inflow
                 water_volume += inflow
             else:
                 self.set(FIT101, 0.00)
@@ -70,7 +70,7 @@ class RawWaterTank(Tank):
             if int(p101) == 1:
                 self.set(FIT201, PUMP_FLOWRATE_OUT)
                 outflow = PUMP_FLOWRATE_OUT * PP_PERIOD_HOURS
-                print "DEBUG RawWaterTank outflow: ", outflow
+                # print "DEBUG RawWaterTank outflow: ", outflow
                 water_volume -= outflow
             else:
                 self.set(FIT201, 0.00)

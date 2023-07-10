@@ -61,9 +61,11 @@ class SwatPLC2(PLC):
         try:
             client = subprocess.Popen(cmd, shell=False)
             # client.wait()
+            time.sleep(1) # wait for server to start
 
         except Exception as error:
-            print 'ERROR enip _send: ', error
+            print 'ERROR plc2 error starting server: ', error
+            exit(1)
 
         via = proxy_simple('192.168.1.20')
         fit201_tag = '@22/1/1'
@@ -83,6 +85,7 @@ class SwatPLC2(PLC):
             print "DEBUG PLC2 - get fit201: %f" % fit201
             # self.send(FIT201_2, fit201, PLC2_ADDR) # updates value of fit201 hosted on PLC2's server (i think)
             with via: result, = via.read([(fit201_tag + '=(REAL)' + str(fit201), fit201_tag)])
+
             print 'this is the return value: %s' % result
 
             # send_status = self.send(FIT201_2, fit201, PLC1_ADDR)

@@ -49,9 +49,13 @@ class SwatPLC3(PLC):
         try:
             client = subprocess.Popen(cmd, shell=False)
             # client.wait()
+            for i in range (0, 1):
+                time.sleep(1)
+                print 'DEBUG plc3 - waiting %d seconds for server to start' % i
 
         except Exception as error:
-            print 'ERROR enip _send: ', error
+            print 'ERROR plc3 error starting server: ', error
+            exit(1)
 
         via = proxy_simple('192.168.1.30')
         fit201_tag = '@22/1/3'

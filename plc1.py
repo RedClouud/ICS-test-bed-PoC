@@ -112,6 +112,7 @@ class SwatPLC1(PLC):
             try:
                 params = PLC2_COMMS.parameter_substitution("fit201_2")
                 value, = PLC2_COMMS.read(params)
+                time.sleep(0.1) # wait to recive the value
             except Exception as exc: print ' cool story bro'
                 # logging.warning("Access to fit201_2 at PLC2 failed: %s", exc)
                 # PLC2_COMMS.close_gateway(exc)
@@ -136,6 +137,7 @@ class SwatPLC1(PLC):
             try:
                 params = PLC3_COMMS.parameter_substitution("fit201_2") # ("lit301_3")
                 value, = PLC3_COMMS.read(params)
+                time.sleep(0.1)
             except Exception as exc:
                 logging.warning("Access to lit301_3 at PLC3 failed: %s", exc)
                 PLC3_COMMS.close_gateway(exc)
@@ -157,7 +159,7 @@ class SwatPLC1(PLC):
             #     # self.send(LIT301_1, lit301, PLC1_ADDR)
 
             # Compare FIT201 with well defined thresholds and take a decision then update the state
-            if fit201 <= FIT_201_THRESH or lit301 >= LIT_301_M['H']:
+            if lit301 >= LIT_301_M['H']:
                 # CLOSE p101
                 self.set(P101, 0)
                 # self.send(P101, 0, PLC1_ADDR)
@@ -165,7 +167,7 @@ class SwatPLC1(PLC):
                       "or over LIT_301_M['H']: -> close p101."
 
             # Compare FIT201 with well defined thresholds and take a decision then update the state
-            elif lit301 <= LIT_301_M['L']:
+            if lit301 <= LIT_301_M['L']:
                 # OPEN p101
                 self.set(P101, 1)
                 # self.send(P101, 1, PLC1_ADDR)
