@@ -87,6 +87,7 @@ target/
 
 # MiniCPS
 /logs
+/datasets
 
 # State
 *.sqlite
