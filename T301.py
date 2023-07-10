@@ -1,7 +1,7 @@
 """
 SWaT sub1 physical process
 
-RawWaterTank has an inflow pipe and outflow pipe, both are modeled according
+T101 has an inflow pipe and outflow pipe, both are modeled according
 to the equation of continuity from the domain of hydraulics
 (pressurized liquids) and a drain orefice modeled using the Bernoulli's
 principle (for the trajectories).
@@ -10,12 +10,10 @@ principle (for the trajectories).
 
 from minicps.devices import Tank
 
-from utils import PUMP_FLOWRATE_IN, PUMP_FLOWRATE_OUT
-from utils import TANK_HEIGHT, TANK_SECTION, TANK_DIAMETER
-from utils import LIT_101_M, RWT_INIT_LEVEL
+from utils import TANK_SECTION
+from utils import LIT_101_M, LIT_301_M, T301_INIT_LEVEL
 from utils import STATE, PP_PERIOD_SEC, PP_PERIOD_HOURS, PP_SAMPLES
 
-import sys
 import time
 
 
@@ -30,14 +28,12 @@ FIT201 = ('FIT201', 2)
 
 
 # TODO: implement orefice drain with Bernoulli/Torricelli formula
-class RawWaterTank(Tank):
+class T301(Tank):
 
     def pre_loop(self):
 
         # SPHINX_SWAT_TUTORIAL STATE INIT(
-        self.set(MV101, 1)
-        self.set(P101, 0)
-        self.level = self.set(LIT101, 0.800)
+        self.level = self.set(LIT301, 1.0)
         # SPHINX_SWAT_TUTORIAL STATE INIT)
 
         # test underflow
@@ -49,6 +45,8 @@ class RawWaterTank(Tank):
 
         count = 0
         while(count <= PP_SAMPLES):
+            lit301 = self.get(LIT301)
+            fit201 = self.get(FIT201)
 
             new_level = self.level
 
@@ -56,24 +54,16 @@ class RawWaterTank(Tank):
             water_volume = self.section * new_level
 
             # inflows volumes
-            mv101 = self.get(MV101)
-            if int(mv101) == 1:
-                self.set(FIT101, PUMP_FLOWRATE_IN)
-                inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS
-                # print "DEBUG RawWaterTank inflow: ", inflow
-                water_volume += inflow
-            else:
-                self.set(FIT101, 0.00)
+            # TODO: put "float(lit301) < LIT_301_M['LL']" in PLC1
+            inflow = float(fit201) * PP_PERIOD_HOURS # PUMP_FLOWRATE_OUT replictes outflow from raw water tank
+            print "DEBUG T301 inflow: ", inflow
+            water_volume += inflow
 
-            # outflows volumes
-            p101 = self.get(P101)
-            if int(p101) == 1:
-                self.set(FIT201, PUMP_FLOWRATE_OUT)
-                outflow = PUMP_FLOWRATE_OUT * PP_PERIOD_HOURS
-                # print "DEBUG RawWaterTank outflow: ", outflow
-                water_volume -= outflow
-            else:
-                self.set(FIT201, 0.00)
+            # outflows volumes (constant rate at 1.5m^1/h)
+            # self.set(FIT201, PUMP_FLOWRATE_OUT)
+            outflow = 1.5 * PP_PERIOD_HOURS
+            print "DEBUG T301 outflow: ", outflow
+            water_volume -= outflow
 
             # compute new water_level
             new_level = water_volume / self.section
@@ -83,18 +73,18 @@ class RawWaterTank(Tank):
                 new_level = 0.0
 
             # update internal and state water level
-            print "DEBUG new_level: %.5f \t delta: %.5f" % (
+            print "DEBUG FIT301 new_level: %.5f \t delta: %.5f" % (
                 new_level, new_level - self.level)
-            self.level = self.set(LIT101, new_level)
+            self.level = self.set(LIT301, new_level)
 
             # 988 sec starting from 0.500 m
-            if new_level >= LIT_101_M['HH']:
-                print 'DEBUG RawWaterTank above HH count: ', count
+            if new_level >= LIT_301_M['HH']:
+                print 'DEBUG T301 above HH count: ', count
                 break
 
             # 367 sec starting from 0.500 m
             elif new_level <= LIT_101_M['LL']:
-                print 'DEBUG RawWaterTank below LL count: ', count
+                print 'DEBUG T301 below LL count: ', count
                 break
 
             count += 1
@@ -103,10 +93,10 @@ class RawWaterTank(Tank):
 
 if __name__ == '__main__':
 
-    rwt = RawWaterTank(
-        name='rwt',
+    t301 = T301(
+        name='t301',
         state=STATE,
         protocol=None,
         section=TANK_SECTION,
-        level=RWT_INIT_LEVEL
+        level=T301_INIT_LEVEL
     )

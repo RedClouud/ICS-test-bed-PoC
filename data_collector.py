@@ -19,10 +19,14 @@ conn = sqlite3.connect('swat_s1_db.sqlite')
 c = conn.cursor()
 print "Connected to database"
 
+current_time = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime())
+dataset_tag = "normal"
+dataset_path = "./datasets/%s_%s.csv" % (current_time, dataset_tag)
+
 # Create the csv file
-if os.path.exists('data.csv'):
-    os.remove('data.csv')
-with open('data.csv', 'w') as csvfile:
+if os.path.exists(dataset_path):
+    os.remove(dataset_path)
+with open(dataset_path, 'w') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['time', 'FIT101', 'MV101', 'LIT101', 'P101', 'FIT201', 'LIT301'])
 print "Created csv file"
@@ -32,7 +36,7 @@ print "Starting data collection..."
 # Take a reading every second
 while True:
     # Get the current time
-    current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    current_time = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime())
 
     # Get the current state
     c.execute('SELECT * FROM swat_s1')
@@ -46,7 +50,7 @@ while True:
     print(current_time, values)
 
     # Write the state to the csv file
-    with open('data.csv', 'a') as csvfile:
+    with open(dataset_path, 'a') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow([current_time, values['FIT101'], values['MV101'], values['LIT101'], values['P101'], values['FIT201'], values['LIT301']])
    

@@ -1,7 +1,7 @@
 """
 SWaT sub1 physical process
 
-RawWaterTank has an inflow pipe and outflow pipe, both are modeled according
+T101 has an inflow pipe and outflow pipe, both are modeled according
 to the equation of continuity from the domain of hydraulics
 (pressurized liquids) and a drain orefice modeled using the Bernoulli's
 principle (for the trajectories).
@@ -12,7 +12,7 @@ from minicps.devices import Tank
 
 from utils import PUMP_FLOWRATE_IN, PUMP_FLOWRATE_OUT
 from utils import TANK_HEIGHT, TANK_SECTION, TANK_DIAMETER
-from utils import LIT_101_M, RWT_INIT_LEVEL, FWT_INIT_LEVEL
+from utils import LIT_101_M, T101_INIT_LEVEL
 from utils import STATE, PP_PERIOD_SEC, PP_PERIOD_HOURS, PP_SAMPLES
 
 import sys
@@ -30,7 +30,7 @@ FIT201 = ('FIT201', 2)
 
 
 # TODO: implement orefice drain with Bernoulli/Torricelli formula
-class RawWaterTank(Tank):
+class T101(Tank):
 
     def pre_loop(self):
 
@@ -60,7 +60,7 @@ class RawWaterTank(Tank):
             if int(mv101) == 1:
                 self.set(FIT101, PUMP_FLOWRATE_IN)
                 inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS
-                print "DEBUG RawWaterTank inflow: ", inflow
+                # print "DEBUG T101 inflow: ", inflow
                 water_volume += inflow
             else:
                 self.set(FIT101, 0.00)
@@ -70,7 +70,7 @@ class RawWaterTank(Tank):
             if int(p101) == 1:
                 self.set(FIT201, PUMP_FLOWRATE_OUT)
                 outflow = PUMP_FLOWRATE_OUT * PP_PERIOD_HOURS
-                print "DEBUG RawWaterTank outflow: ", outflow
+                # print "DEBUG T101 outflow: ", outflow
                 water_volume -= outflow
             else:
                 self.set(FIT201, 0.00)
@@ -89,12 +89,12 @@ class RawWaterTank(Tank):
 
             # 988 sec starting from 0.500 m
             if new_level >= LIT_101_M['HH']:
-                print 'DEBUG RawWaterTank above HH count: ', count
+                print 'DEBUG T101 above HH count: ', count
                 break
 
             # 367 sec starting from 0.500 m
             elif new_level <= LIT_101_M['LL']:
-                print 'DEBUG RawWaterTank below LL count: ', count
+                print 'DEBUG T101 below LL count: ', count
                 break
 
             count += 1
@@ -103,10 +103,10 @@ class RawWaterTank(Tank):
 
 if __name__ == '__main__':
 
-    rwt = RawWaterTank(
-        name='rwt',
+    t101 = T101(
+        name='t101',
         state=STATE,
         protocol=None,
         section=TANK_SECTION,
-        level=RWT_INIT_LEVEL
+        level=T101_INIT_LEVEL
     )
