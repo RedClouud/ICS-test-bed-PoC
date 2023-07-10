@@ -208,7 +208,6 @@ SCHEMA_INIT = """
     INSERT INTO swat_s1 VALUES ('P101',     1, '1');
 
     INSERT INTO swat_s1 VALUES ('FIT201',   2, '2.45');
-    INSERT INTO swat_s1 VALUES ('MV201',    2, '0');
 
     INSERT INTO swat_s1 VALUES ('LIT301',   3, '0.500');
 """
