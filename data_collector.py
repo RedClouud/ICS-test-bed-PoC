@@ -24,8 +24,12 @@ dataset_tag = "normal"
 dataset_path = "./datasets/%s_%s.csv" % (current_time, dataset_tag)
 
 # Create the csv file
+if not os.path.exists("./datasets"):
+    os.mkdir("./datasets")
+
 if os.path.exists(dataset_path):
     os.remove(dataset_path)
+
 with open(dataset_path, 'w') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['time', 'FIT101', 'MV101', 'LIT101', 'P101', 'FIT201', 'LIT301'])
