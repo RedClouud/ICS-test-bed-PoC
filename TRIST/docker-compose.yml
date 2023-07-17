@@ -57,6 +57,7 @@ services:
       - plc1
       - plc2
       - plc3
+    restart: unless-stopped
 
   t301:
     image: redclouud/trist:latest
@@ -67,6 +68,7 @@ services:
       - plc1
       - plc2
       - plc3
+    restart: unless-stopped
 
   data-collector:
     image: python:2.7

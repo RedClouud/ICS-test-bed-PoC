@@ -74,7 +74,7 @@ TANK_HEIGHT = 1.600  # m
 
 PLC_PERIOD_SEC = 0.40  # plc update rate in seconds
 PLC_PERIOD_HOURS = PLC_PERIOD_SEC / 3600.0
-PLC_SAMPLES = 1000
+PLC_SAMPLES = 60000 
 
 PP_RESCALING_HOURS = 100
 PP_PERIOD_SEC = 0.20  # physical process update rate in seconds
