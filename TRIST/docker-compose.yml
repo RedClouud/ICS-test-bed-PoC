@@ -24,6 +24,7 @@ services:
     depends_on:
       - plc2
       - plc3
+    restart: on-failure
   
   plc2:
     image: redclouud/trist:latest
@@ -34,6 +35,7 @@ services:
     privileged: true
     volumes:
       - ../:/TRIST
+    restart: on-failure
   
   plc3:
     image: redclouud/trist:latest
@@ -44,6 +46,7 @@ services:
     privileged: true
     volumes:
       - ../:/TRIST
+    restart: on-failure
   
   t101:
     image: redclouud/trist:latest
@@ -76,6 +79,7 @@ services:
       - plc3
       - t101
       - t301
+    restart: on-failure
 
 # Network for container communication
 networks:
