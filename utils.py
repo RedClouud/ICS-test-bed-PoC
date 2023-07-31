@@ -30,6 +30,7 @@ TANK_DIAMETER = 1.38           # m
 TANK_SECTION = 1.5             # m^2
 PUMP_FLOWRATE_IN = 2.55        # m^3/h spec say btw 2.2 and 2.4
 PUMP_FLOWRATE_OUT = 2.45       # m^3/h spec say btw 2.2 and 2.4
+SYSTEM_FLOWRATE_OUT = 0.0189271 # constant outflow rate at 1 m^3/h (adjustments are in place to mimic 0.0189271m^1/h which is equal to 5 US gallons, reflecting the real test bed)
 
 # periods in msec
 # R/W = Read or Write
@@ -72,12 +73,12 @@ LIT_301_M = {  # ultrafiltration tank m
 
 TANK_HEIGHT = 1.600  # m
 
-PLC_PERIOD_SEC = 0.40  # plc update rate in seconds
+PLC_PERIOD_SEC = 0.00757084  # plc update rate in seconds (divided by 52.8342957981 to update at the same rate per US gallon)
 PLC_PERIOD_HOURS = PLC_PERIOD_SEC / 3600.0
 PLC_SAMPLES = 205000 # ~ 24 hours run time
 
 PP_RESCALING_HOURS = 100
-PP_PERIOD_SEC = 0.20  # physical process update rate in seconds
+PP_PERIOD_SEC = 0.00378542  # physical process update rate in seconds (divided by 52.8342957981 to update at the same rate per US gallon)
 PP_PERIOD_HOURS = (PP_PERIOD_SEC / 3600.0) * PP_RESCALING_HOURS
 PP_SAMPLES = int(PLC_PERIOD_SEC / PP_PERIOD_SEC) * PLC_SAMPLES
 
