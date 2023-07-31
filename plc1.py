@@ -113,7 +113,7 @@ class SwatPLC1(PLC):
                 params = PLC2_COMMS.parameter_substitution("fit201_2")
                 value, = PLC2_COMMS.read(params)
                 time.sleep(0.1) # wait to recive the value
-            except Exception as exc: print ' cool story bro'
+            except Exception as exc: print 'fit201 read error'
                 # logging.warning("Access to fit201_2 at PLC2 failed: %s", exc)
                 # PLC2_COMMS.close_gateway(exc)
                 # raise

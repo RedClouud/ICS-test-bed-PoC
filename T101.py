@@ -77,14 +77,19 @@ class T101(Tank):
             # compute new water_level
             new_level = water_volume / self.section
 
-            # level cannot be negative
-            if new_level <= 0.0:
-                new_level = 0.0
+            # level cannot go outside of threshholds
+            if new_level <= LIT_101_M['LL']: exit
+            if new_level >= LIT_101_M['HH']: exit
+            # print "recorded T101 level (FIT101): " + str(self.get(LIT101))
+            # print "actual T101 level: " + str(new_level)
+            # print "" + time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime())
 
             # update internal and state water level
             print "DEBUG new_level: %.5f \t delta: %.5f" % (
                 new_level, new_level - self.level)
             self.level = self.set(LIT101, new_level)
+            # self.level = new_level
+            # self.set(LIT101, 0.7)
 
             # 988 sec starting from 0.500 m
             if new_level >= LIT_101_M['HH']:

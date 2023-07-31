@@ -10,7 +10,7 @@ principle (for the trajectories).
 
 from minicps.devices import Tank
 
-from utils import TANK_SECTION, SYSTEM_FLOWRATE_OUT
+from utils import TANK_SECTION, SYSTEM_FLOWRATE_OUT_METER_CUBED
 from utils import LIT_101_M, LIT_301_M, T301_INIT_LEVEL
 from utils import STATE, PP_PERIOD_SEC, PP_PERIOD_HOURS, PP_SAMPLES
 
@@ -61,7 +61,7 @@ class T301(Tank):
 
             # outflows volumes 
             # self.set(FIT201, PUMP_FLOWRATE_OUT)
-            outflow = SYSTEM_FLOWRATE_OUT * PP_PERIOD_HOURS
+            outflow = SYSTEM_FLOWRATE_OUT_METER_CUBED * PP_PERIOD_HOURS
             print "DEBUG T301 outflow: ", outflow
             water_volume -= outflow
 
