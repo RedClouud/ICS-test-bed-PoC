@@ -20,7 +20,7 @@ c = conn.cursor()
 print "Connected to database"
 
 current_time = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime())
-dataset_tag = "normal"
+dataset_tag = "cs1"
 dataset_path = "./datasets/%s_%s.csv" % (current_time, dataset_tag)
 
 # Create the csv file

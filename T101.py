@@ -31,12 +31,12 @@ FIT201 = ('FIT201', 2)
 # TODO: implement orefice drain with Bernoulli/Torricelli formula
 class T101(Tank):
 
-    def pre_loop(self):
+    # def pre_loop(self):
 
         # SPHINX_SWAT_TUTORIAL STATE INIT(
-        self.set(MV101, 1)
-        self.set(P101, 0)
-        self.level = self.set(LIT101, 0.800)
+        # self.set(MV101, 1)
+        # self.set(P101, 0)
+        # self.level = self.set(LIT101, 0.800)
         # SPHINX_SWAT_TUTORIAL STATE INIT)
 
         # test underflow

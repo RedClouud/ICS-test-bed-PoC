@@ -30,10 +30,10 @@ FIT201 = ('FIT201', 2)
 # TODO: implement orefice drain with Bernoulli/Torricelli formula
 class T301(Tank):
 
-    def pre_loop(self):
+    # def pre_loop(self):
 
         # SPHINX_SWAT_TUTORIAL STATE INIT(
-        self.level = self.set(LIT301, 1.0)
+        # self.level = self.set(LIT301, 1.0)
         # SPHINX_SWAT_TUTORIAL STATE INIT)
 
         # test underflow
@@ -59,9 +59,9 @@ class T301(Tank):
             print "DEBUG T301 inflow: ", inflow
             water_volume += inflow
 
-            # outflows volumes (constant rate at 1.5m^1/h)
+            # outflows volumes (constant rate at 0.0189271m^1/h which is equal to 5 US gallons, reflecting the real test bed)
             # self.set(FIT201, PUMP_FLOWRATE_OUT)
-            outflow = 1.5 * PP_PERIOD_HOURS
+            outflow = 0.0189271 * PP_PERIOD_HOURS
             print "DEBUG T301 outflow: ", outflow
             water_volume -= outflow
 
