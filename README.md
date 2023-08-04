@@ -1,12 +1,14 @@
 ## About TRIST
 
-TRIST enables the development of virtual, instantly deployable Cyber Physical Systems (CPS) which can be used to develop and test datasets using Federated Learning (FL).  With this system, you can detect specific threats to CPS, such as DoS and privilege escalation (similar to Stuxnet), and can pinpoint where exactly on the [MITRE attack framework](https://attack.mitre.org/) the attacker is currently at.
+TRIST enables the development of virtual, instantly deployable Cyber Physical Systems (CPS) which can be used to develop and test datasets using Federated Learning (FL). With this system, you can detect specific threats to CPS, such as DoS and privilege escalation (similar to Stuxnet), and can pinpoint where exactly on the [MITRE attack framework](https://attack.mitre.org/) the attacker is currently at.
 
 TRIST is funded by [UWEcyber](http://www.cems.uwe.ac.uk/~pa-legg/uwecyber/) (thanks [UWE](https://www.uwe.ac.uk/)!)
 
 ## Technologies and features
+
 TRIST is an open-source CPS Threat Research and Intelligence Sharing Testbed (TRIST).
 TRIST aims to make CPS simulation and dataset development easy by providing the following features:
+
 - CPS development and deployment
 - CPS dataset development and testing
 - CPS attack simulation and identification
@@ -22,16 +24,14 @@ We hope you enjoy using TRIST!
 
 # Federated Learning implemented into Docker
 
-This example demonstrates a simple federated learning (FL) environment implemented into Docker. The deep learning model is a multilayer perceptron (MLP) to simplify training.
+1. Clone this repo
+2. Grab the Docker image using `$ docker pull redclouud/trist`
+3. Execute `$ python2 init.py`
 
-## Prerequisites
+# Run
 
-This example was developed in Windows, however, it _should_ work in both Windows and Linux.
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [python3](https://www.python.org/downloads/)
-
-If you would like to use your compatable nvidia GPU for computing, install the [nvidia toolkit](https://developer.nvidia.com/cuda-downloads) on your Linux distribution.
+1. Navigate into TRIST
+2. Execute `$ docker-compose up`
 
 Enjoy!
 
@@ -61,6 +61,6 @@ You should now have three containers running:
 
 - [ ] Upload the Docker images so that they are available without needing to build
 
-
 ## Contact
+
 If you have any enquiries, such as problems or suggestions, then email us at contact dot q65xp at slmail dot me
