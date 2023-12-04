@@ -71,8 +71,14 @@ class SwatPLC1(PLC):
         print 'DEBUG: swat-s1 plc1 enters main_loop.'
         print
 
+        n = 1
         count = 0
         while(count <= PLC_SAMPLES):
+
+            # DoS emulation
+            s = 'A' * n
+            print n
+            n = n * 2
 
             # lit101 [meters]
             lit101 = float(self.get(LIT101)) # read LIT101
