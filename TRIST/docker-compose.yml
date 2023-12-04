@@ -24,7 +24,7 @@ services:
     depends_on:
       - plc2
       - plc3
-    restart: on-failure
+    restart: no # emulate PLC crash
   
   plc2:
     image: redclouud/trist:latest
