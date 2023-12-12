@@ -71,6 +71,7 @@ class SwatPLC1(PLC):
         print 'DEBUG: swat-s1 plc1 enters main_loop.'
         print
 
+        n = 1
         count = 0
         while(count <= PLC_SAMPLES):
 
