@@ -54,8 +54,8 @@ LIT_101_MM = {  # raw water tank mm
 }
 LIT_101_M = {  # raw water tank m
     'LL': 0.250,
-    'L': 0.500,
-    'H': 0.800,
+    'L': 0.800,
+    'H': 1.000,
     'HH': 1.200,
 }
 
