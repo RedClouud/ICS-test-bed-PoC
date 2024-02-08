@@ -1,14 +1,6 @@
 version: "3"
 
 services:
-  
-  # # Attacker
-  # slowloris:
-  #   image: aminvakil/slowloris:latest
-  #   command: 192.168.1.10 -p 44818
-  #   networks:
-  #     TRIST:
-  #       ipv4_address: 192.168.1.77
 
   # CPS network components
 
