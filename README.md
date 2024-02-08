@@ -18,22 +18,20 @@ TRIST is deployed in [Docker](https://www.docker.com/) to offer the containerise
 
 TRIST is part inspired by [MiniCPS](https://minicps.readthedocs.io/), a CPS simulation tool built on top of [Mininet](http://mininet.org/). However, TRIST takes this one step further by implementing any CPS into portable and instantly deployable Docker containers. This means no installation, configuration, or setup is requried.
 
-# Current state
+# Getting Started
 
 TRIST is a Work In Progress (WIP) and so some functionality and features will be incomplete or buggy.
 
-## Current simulations
-
-There are two PoC simulations available to use. Each one is seperated on each branch in the repo:
+Currently, there are two PoC simulations available to use. Each one is seperated on each branch in the repo:
 
 - [main](https://github.com/RedClouud/ICS-test-bed-PoC) - the main branch contains the simulation running normally
 - [DoS_Emulation](https://github.com/RedClouud/ICS-test-bed-PoC/tree/DoS_Emulation) - the DoS_Emulation branch contains an emulated DoS attack on PLC1 to mimic what DoS attack might look like on the system
 
-## How to run the PoC
+## How to run (normal)
 
-1. Select the branch that you would like to use: provides chosen feature (default or DoS emulation)
+Let's start with the main branch. This will run the testbed during normal operations.
 
-   Let's start with the basic, default feature set to begin with...
+1. Select the branch that you would like to use: provides chosen feature (normal behavior is in the main branch)
 
    ```bash
    $ git checkout main
@@ -68,11 +66,25 @@ After a few moments, you should have six containers running:
 - t[1 | 3]01-1: water tanks to simulate physical processes
 - data-collector-1: data collector to collect logs into `datasets`
 
-![Docker GUI displaying all six running containers](assets/docker.png)
+![Docker Desktop displaying all six running containers](assets/docker.png)
 
-_Docker GUI displaying all six running containers_
+_Docker Desktop displaying all six running containers_
 
 You can stop the simulation using `$ docker-compose down`
+
+## How to run (DoS Emulation)
+
+To emulate a Denial of Service (DoS) attack on the testbed, follow the same steps in the `How to run (normal)` section but instead checkout to the `DoS_Emulation` branch during step one, like so:
+
+```bash
+$ git checkout DoS_Emulation
+```
+
+This will this produce a dataset which will represent a DoS attack on the system. You can also view the affects of the DoS attack via the Docker Desktop by using the "Resource usage" extention.
+
+![Viewing the memory usage of the testbed using the "Resource usage" extention in Docker Desktop.](assets/docker-resource-usage.png)
+
+_Viewing the memory usage of the testbed using the "Resource usage" extention in Docker Desktop._
 
 ## Dataset
 
