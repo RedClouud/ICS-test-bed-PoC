@@ -69,10 +69,15 @@ Copy and paste ***one of the following commands*** into your terminal:
 
 **3. Create Docker containers for simulation**
 
+Open Docker Desktop application and sign in using your Docker Hub credentials.
+
 Copy and paste the following command into your terminal to create and run Docker containers in detached mode based on the configurations specified in a file called [docker-compose.yml](https://github.com/RedClouud/ICS-test-bed-PoC/blob/main/TRIST/docker-compose.yml), i.e. the Docker containers will run in the background of your terminal and you can continue using your terminal for other commands. 
 
    ```bash
-   cd TRIST
+   cd TRIST 
+   ```
+
+   ```bash
    docker-compose up -d
    ```
 
