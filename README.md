@@ -121,17 +121,6 @@ You can view the affects of the simulation via the Docker Desktop by using the "
 _Figure 3: Docker Desktop displaying memory usage of the testbed_
 ![Figure 3: Docker Desktop displaying memory usage of the testbed](assets/docker-resource-usage.png)
 
-**7. Reset the environment**
-
-Copy and paste the following command into your terminal to clear any previous state if you ran this simulation in the past, or if you encounter errors during the process. 
-
-* For Unix-based operating systems, such as Linux or Mac:
-   ```bash
-   chmod +x reset.sh
-   ./reset.sh
-   ```
-* For Windows operating system, you would need to run the above command using Git Bash, WSL (Windows Subsystem for Linux), or another Unix-like terminal.
-
 # Acknowledgments and Contact Us
 
 TRIST is a cybersecurity research project funded by [the Computer Science Research Centre (CSRC)](https://www.uwe.ac.uk/research/centres-and-groups/csrc) of [the University of the West of England](https://www.uwe.ac.uk/).
