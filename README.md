@@ -114,7 +114,7 @@ To access the generated datasets, navigate to `datasets` directory, as shown in 
 _Figure 2: Datasets directory storing simulated data_
 ![Datasets directory storing simulated data](assets/dataset-example.png)
 
-The simulated data could be used for developing machine learning experiment. For simplicity, we have used [PyCaret](https://pycaret.org/), an open-source machine learning library in Python, to train a unsupervised time series anomaly detection using the datasets created from TRIST. 
+The simulated data could be used for developing machine learning experiment. For simplicity, we have used [PyCaret](https://pycaret.org/), an open-source machine learning library in Python, to train unsupervised time series anomaly detection using the datasets created from TRIST. 
 
 **7. Memory consumption**
 
