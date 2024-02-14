@@ -12,7 +12,7 @@ services:
         ipv4_address: 192.168.1.10
     privileged: true
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     depends_on:
       - plc2
       - plc3
@@ -26,7 +26,7 @@ services:
         ipv4_address: 192.168.1.20
     privileged: true
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     restart: on-failure
   
   plc3:
@@ -37,14 +37,14 @@ services:
         ipv4_address: 192.168.1.30
     privileged: true
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     restart: on-failure
   
   t101:
     image: redclouud/trist:latest
     command: bash -c "cd /TRIST && python2 T101.py"
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     depends_on:
       - plc1
       - plc2
@@ -54,7 +54,7 @@ services:
     image: redclouud/trist:latest
     command: bash -c "cd /TRIST && python2 T301.py"
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     depends_on:
       - plc1
       - plc2
@@ -64,7 +64,7 @@ services:
     image: python:2.7
     command: bash -c "cd /TRIST && python2 data_collector.py"
     volumes:
-      - ../:/TRIST
+      - ./:/TRIST
     depends_on:
       - plc1
       - plc2
