@@ -1,105 +1,156 @@
-# About TRIST
+# Aim
 
-TRIST is a Proof Of Concept (PoC) Cyber Physcial System (CPS) testbed to evaluate the usefulness of containerised environments for CPS simulation.
+Threat Research and Intelligence Sharing Testbed (TRIST) is a virtual testbed aiming to facilitate development and sharing of cybersecurity threat research for Cyber-Physical Systems (CPS). 
 
-Currently, TRIST enables the development of virtual, instantly deployable Cyber Physical Systems (CPS) which can be used to develop and test datasets.
+# Problems statements
 
-TRIST is funded by [UWEcyber](http://www.cems.uwe.ac.uk/~pa-legg/uwecyber/) (thanks [UWE](https://www.uwe.ac.uk/)!)
+While some researchers have managed to gather data from production environments to study potential threats in CPS processes, the research community often resorts to developing physical testbeds to explore cyber threats. However, such approach can significantly slow down the progress of cybersecurity research for three main reasons. 
 
-# Technologies and features
+- **Confidentiality or Sensitivity Concerns:** Certain datasets cannot be disclosed due to confidentiality or sensitivity concerns.
+- **Cost and Time:** Setting up and maintaining physical testbeds is costly and time-consuming.
+- **Replication Difficulties:** Fully mimicking the scale of a production environment, particularly when its components are geographically dispersed, is nearly impossible.
 
-TRIST is an open-source CPS Threat Research and Intelligence Sharing Testbed (TRIST).
-TRIST aims to make CPS simulation and dataset development easy by providing the following features:
+These inherent limitations often render cyber security research in ICS unrepeatable and difficult to verify.
 
-- CPS development and deployment
-- CPS dataset development and testing
+# Proposed Methodology
 
-TRIST is deployed in [Docker](https://www.docker.com/) to offer the containerised environment.
+TRIST is inspired by [MiniCPS](https://minicps.readthedocs.io/), a CPS simulation tool that uses [Mininet](http://mininet.org/) for network emulation. TRIST takes one step further by implementing it into a portable and instantly deployable framework by leveraging [Docker containers](https://www.docker.com/), allowing isolation of environments, ensure consistency across systems, and a streamlined deployment process. 
 
-TRIST is part inspired by [MiniCPS](https://minicps.readthedocs.io/), a CPS simulation tool built on top of [Mininet](http://mininet.org/). However, TRIST takes this one step further by implementing any CPS into portable and instantly deployable Docker containers. This means no installation, configuration, or setup is requried.
+**To start simulating with TRIST, the only prerequisite is having [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your Windows / Linux / Mac.** For comparisons between containers and virtual machines such as [VirtualBox](https://www.virtualbox.org/) or [VMWare](https://www.vmware.com/uk.html), please refer to [Docker's documentation](https://www.docker.com/resources/what-container/).
+
+This Github repository is a Proof Of Concept (PoC) to evaluate the usefulness of containerised environments for CPS process simulation. Currently, the goal is to demonstrate how CPS process simulation could be simplified, thereby facilitating the creation of datasets for training and testing machine learning or deep learning applications for cybersecurity purpose. 
+
+To demonstrate the practical application of TRIST, we have used [PyCaret](https://pycaret.org/), an open-source machine learning library in Python, to train unsupervised time series anomaly detection using the datasets created from TRIST. Please dive deeper in the following section on how to generate datasets from TRIST for the development of machine learning model.
 
 # Getting Started
 
-TRIST is a Work In Progress (WIP) and so some functionality and features will be incomplete or buggy.
+Programmable Logic Controllers (PLCs) are the backbone of industrial automation systems. They are specialized computers that take inputs from sensors, process these inputs according to programmed rules, and then send commands to control actuators like valves and pumps to manage industrial processes efficiently. 
 
-Currently, there are two PoC simulations available to use. Each one is seperated on each branch in the repo:
+TRIST uses several python scripts to simulate the operations of water supply and storage, including
+- PLC1 is the main process that decides how much water should flow through the system, ensuring tanks are neither too full nor too empty.
+- PLC2 and PLC3 monitor water flow rate and water level in water tanks, and report back to PLC1 for optimisation. 
 
-- [main](https://github.com/RedClouud/ICS-test-bed-PoC) - the main branch contains the simulation running normally
-- [DoS_Emulation](https://github.com/RedClouud/ICS-test-bed-PoC/tree/DoS_Emulation) - the DoS_Emulation branch contains an emulated DoS attack on PLC1 to mimic what DoS attack might look like on the system
+Currently, the GitHub repository hosts two primary branches for water supply and storage simulation:
+  
+- [main](https://github.com/RedClouud/ICS-test-bed-PoC) - this branch simulates the CPS process of water supply and storage in water tanks, typical of water treatment plants, under normal operational conditions. 
+   - Raw water is collected from the source and stored into raw water tanks (T101, T301). 
+   - This industrial process is controlled by three Programmable Logic Controllers (PLC1, PLC2, PLC3). 
+   - To maintain water levels within predefined thresholds, PLCs constantly monitor the water flow sensors (FIT101, FIT201) and water levels in the water tanks (LIT101, LIT301), and then open or close the motorised valve (MV101) and pump (P101) to regulate the water flow and avoid tank overflow.
 
-## How to run (normal)
+- [DoS_Emulation](https://github.com/RedClouud/ICS-test-bed-PoC/tree/DoS_Emulation) - this branch introduces an emulated Denial of Service (DoS) attack on master controller (PLC1) to demonstrate the potential impact of a DoS attack on the simulated process. This type of attacks is akin to the Dead Man’s PLC technique, where the adversary has taken full control on the PLCs.
 
-Let's start with the main branch. This will run the testbed during normal operations.
+TRIST is continuously evolving, representing a Work In Progress (WIP). Functionality and features may be updated regularly, introducing new capabilities or refining existing ones.
 
-1. Select the branch that you would like to use: provides chosen feature (normal behavior is in the main branch)
+# How to Run CPS Process Simulation for the Creation of Datasets
 
-   ```bash
-   $ git checkout main
-   ```
+Follow the steps below to simulate the process of water supply and storage in water tanks:
 
-2. Execute reset.sh: prepares environment
+**1. Clone the repository**
 
-   This will clear any previous state if you ran this simulation in the past. (It is also handy if you are meeting errors!)
-
-   ```bash
-   $ ./reset.sh
-   ```
-
-   _Note that you may need make `reset.sh` executable before being able to execute it._
-   
-   If so, make `reset.sh` executable by running the following command:
+Copy and paste the following command into your terminal:
 
    ```bash
-   $ chmod +x reset.sh
+   git clone https://github.com/RedClouud/ICS-test-bed-PoC.git
    ```
 
-3. Execute the docker-compose file: creates containers and begins simulation and data collection
+**2. Select the branch**
+
+Copy and paste ***one of the following commands*** into your terminal:
+
+   * For normal operation simulation:
+   ```bash
+   git checkout main
+   ```
+
+   * For Denial-of-Service (DoS) attack emulation:
+   ```bash
+   git checkout DoS_Emulation
+   ```
+
+**3. Create Docker containers for simulation**
+
+Open Docker Desktop application and sign in using your Docker Hub credentials.
+
+Copy and paste the following command into your terminal to create and run Docker containers in detached mode based on the configurations specified in a file called [docker-compose.yml](https://github.com/RedClouud/ICS-test-bed-PoC/blob/main/TRIST/docker-compose.yml), i.e. the Docker containers will run in the background of your terminal and you can continue using your terminal for other commands. 
 
    ```bash
-   $ cd TRIST
-   $ docker-compose up -d
+   cd TRIST 
    ```
 
-After a few moments, you should have six containers running:
+   ```bash
+   docker-compose up -d
+   ```
 
-- plc[1 - 3]-1: PLCs to control physical processes
-- t[1 | 3]01-1: water tanks to simulate physical processes
-- data-collector-1: data collector to collect logs into `datasets`
+After a few moments, you should have six containers running on Docker Desktop, as shown on Figure 1 below:
 
+- plc1-1: PLC1 acts as the master controller, reads sensor data from PLC2 and PLC3 to manage actuators MV101 (open/ close valve) and P101 (start/ stop pump).
+- plc2-1: PLC2 monitors flow rate (FIT201) in the second subprocess.
+- plc3-1: PLC3 monitors water level (LIT301) in the third subprocess.
+- t101-1: water tank (T101) stores raw water with water level indicator LIT101.
+- t301-1: water tank (T301) stores raw water with water level indicator LIT301.  
+- data-collector-1: create logs and stores as `datasets`
+
+_Figure 1: Docker Desktop displaying all six running containers_
 ![Docker Desktop displaying all six running containers](assets/docker.png)
 
-_Docker Desktop displaying all six running containers_
+**4. Stop the simulation**
 
-You can stop the simulation using `$ docker-compose down`
+Copy and paste the following command into your terminal to gracefully stop and remove all the Docker containers, along with any networks that were created. This step cleans up the system by stopping and removing unnecessary resources and release space.
 
-## How to run (DoS Emulation)
+   ```bash
+   docker-compose down
+   ```
 
-To emulate a Denial of Service (DoS) attack on the testbed, follow the same steps in the `How to run (normal)` section but instead checkout to the `DoS_Emulation` branch during step one, like so:
+**5. Collection of simulated data**
 
-```bash
-$ git checkout DoS_Emulation
-```
+For each started simulation session, the python script data_collector.py begins to collect data generated by each component. Data is recorded in SQLite and exported into a file in CSV format (`.csv`) with the following naming convention: `YYYY-MM-DDThh:mm:ss_cs1.csv`.
 
-This will this produce a dataset which will represent a DoS attack on the system. You can also view the affects of the DoS attack via the Docker Desktop by using the "Resource usage" extention.
+If the csv files are not generating any data, please follow step 7 to reset the environment.
 
-![Viewing the memory usage of the testbed using the "Resource usage" extention in Docker Desktop.](assets/docker-resource-usage.png)
+To access the generated datasets, navigate to `datasets` directory, as shown in Figure 2 below. However, if you have yet to start simulation, this directory will not yet exist.
 
-_Viewing the memory usage of the testbed using the "Resource usage" extention in Docker Desktop._
+_Figure 2: Datasets directory storing simulated data_
+![Datasets directory storing simulated data](assets/dataset-example.png)
 
-## Dataset
+The simulated data could be used for developing machine learning experiment. For simplicity, we have used [PyCaret](https://pycaret.org/), an open-source machine learning library in Python, to train unsupervised time series anomaly detection using the datasets created from TRIST. 
 
-When the simulation is started, TRIST automatically begins to collect data generated by each component. Data is recorded in CSV format allowing for a range of applications for the data from visualtion to machine learning. 
+Anomaly detection is a common technique used for identifying abnormal or rare observations that significantly different from the majority of the data in a dataset. This technique is applicable to detection of anomalous events happened on Internet of Things (IoT) and many other real-life problems.
 
-### Access Dataset
+The purpose of this demonstration is to validate whether an anomaly detection model trained based on datasets of normal operations could effectively identify anomalies on datasets generated during attacks. Isolation Forest algorithm has been used for the training of the datasets. The default anomaly rate assigned to datasets is 10% of the datasets. In this project, we would like to find out what is the optimised anomaly rate that could make detect the two simulated attacks while using a lower anomaly rate. 
+Please refer to the Google Colab notebooks for details. Below is the snapshot of the anomaly detection results. 
 
-To access the generated datasets, navigate to `datasets`. For each started simulation session, a `.csv` file will be created using the following format: `YYYY-MM-DDThh:mm:ss_cs1.csv`.
+_Figure 3: Anomaly Detection for Simulated Attack 1 - from 1% to 10% of anomaly rate_
+![Figure 3: Anomaly Detection for Simulated Attack 1 - from 1% to 10% of anomaly rate](assets/PredictAttack1_0.01to0.10Fraction.gif)
+In this experience, simulated attack 1 could be effectively detected if we set the anomaly rate at 9%, instead of 10%.
 
-_Note that if you have not yet started a simulation, this directory will not yet exist._
+_Figure 4: Anomaly Detection for Simulated Attack 2 - from 1% to 10% of anomaly rate_
+![Figure 4: Anomaly Detection for Simulated Attack 2 - from 1% to 10% of anomaly rate](assets/PredictAttack2_0.01to0.10Fraction.gif)
+In this experience, simulated attack 2 could be effectively detected if we set the anomaly rate at 6%, instead of 10%.
 
-![Example dataset](assets/dataset-example.png)
+**6. Memory consumption**
 
-_Example dataset_
+One of the key benefits of using Docker containers is the lightweight approach on virtualisation. 
 
-# Contact
+You can view the affects of the simulation via the Docker Desktop by using the "Resource usage" extention, as shown in Figure 3 below.
 
-If you have any enquiries, such as problems or suggestions, then email us at contact dot q65xp at slmail dot me
+_Figure 5: Docker Desktop displaying memory usage of the testbed_
+![Figure 5: Docker Desktop displaying memory usage of the testbed](assets/docker-resource-usage.png)
+
+**7. Reset the environment**
+
+Copy and paste the following command into your terminal to clear any previous state if you ran this simulation in the past, or if you encounter errors during the process. 
+
+* For Unix-based operating systems, such as Linux or Mac:
+   ```bash
+   chmod +x reset.sh
+   ./reset.sh
+   ```
+* For Windows operating system, you would need to run the above command using Git Bash, WSL (Windows Subsystem for Linux), or another Unix-like terminal.
+
+* You may need to install Python 2 before running the above scripts.  
+
+# Acknowledgments and Contact Us
+
+TRIST is a cybersecurity research project funded by [the Computer Science Research Centre (CSRC)](https://www.uwe.ac.uk/research/centres-and-groups/csrc) of [the University of the West of England](https://www.uwe.ac.uk/).
+
+For inquiries, comments, contributions, or to propose new features, please feel free to [open an issue on our GitHub repository](https://github.com/RedClouud/ICS-test-bed-PoC/issues) or email us at contact dot q65xp at slmail dot me for more direct communication.
