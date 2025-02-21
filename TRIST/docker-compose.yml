@@ -73,6 +73,15 @@ services:
       - t301
     restart: on-failure
 
+  data-visualiser:
+    image: redclouud/visualiser:latest
+    command: bash -c "cd /TRIST && python3 visualiser.py"
+    volumes:
+      - ../:/TRIST
+    depends_on:
+      - data_collector
+    restart: on-failure
+
 # Network for container communication
 networks:
   TRIST:

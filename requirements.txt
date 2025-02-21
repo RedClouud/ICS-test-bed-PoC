@@ -6,3 +6,6 @@ pyasn1
 pymodbus
 cpppo
 twisted
+matplotlib
+pandas
+numpy
