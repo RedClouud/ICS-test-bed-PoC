@@ -60,6 +60,6 @@ while True:
     plt.xticks(np.arange(0, 71, 10))  # X-axis ticks every 10 seconds
     plt.legend()
     plt.grid(True)
-    plt.show()
+    plt.savefig(f"{latest_time}.png")
 
     time.sleep(1)
