@@ -22,7 +22,7 @@ for file in files:
 
 # If file is not found, data logger is broken so exit
 if not latest_file:
-    print("No files found in the directory.")
+    print(f"No files found in {path}. Exiting...")
     exit(1)
 else: latest_file_path = os.path.join(path, latest_file)
 
