@@ -76,6 +76,7 @@ class SwatPLC1(PLC):
 
             # lit101 [meters]
             lit101 = float(self.get(LIT101)) # read LIT101
+            lit101 = 0.7 # falsely set LIT101
             print 'DEBUG plc1 lit101: %.5f' % lit101
             # self.send(LIT101, lit101, PLC1_ADDR)
 
