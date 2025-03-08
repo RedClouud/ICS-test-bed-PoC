@@ -173,7 +173,7 @@ class SwatPLC1(PLC):
                 # self.send(P101, 1, PLC1_ADDR)
                 print "INFO PLC1 - lit301 under LIT_301_M['L'] -> open p101."
 
-            self.set(MV101, 1)
+            self.set(MV101, 1) # force MV101 open
 
             time.sleep(PLC_PERIOD_SEC)
             count += 1
