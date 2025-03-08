@@ -1,3 +1,9 @@
+# Note about TRIST-1
+This branch exists only to demonstrate attack TRIST-1 as part of a final year project. This branch is not related to the original work by Lo, C., et al. (2024).
+
+## References
+Lo, C., Christie, J., Win, T., Rezaeifar, Z., Zaheer, K. and Legg, P. (2024) Trist: Towards a Container-based Ics Testbed For Cyber Threat Simulation and Anomaly Detection. Springer Proceedings in Complexity [online]. [Accessed 27 September 2024].
+
 # Aim
 
 Threat Research and Intelligence Sharing Testbed (TRIST) is a virtual testbed aiming to facilitate development and sharing of cybersecurity threat research for Cyber-Physical Systems (CPS). 
