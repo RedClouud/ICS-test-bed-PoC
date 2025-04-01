@@ -1,0 +1,90 @@
+version: "3"
+
+services:
+  
+  # # Attacker
+  # slowloris:
+  #   image: aminvakil/slowloris:latest
+  #   command: 192.168.1.10 -p 44818
+  #   networks:
+  #     TRIST:
+  #       ipv4_address: 192.168.1.77
+
+  # CPS network components
+
+  plc1:
+    image: redclouud/trist:latest
+    command: bash -c "cd /TRIST && python2 plc1.py"
+    networks: 
+      TRIST:
+        ipv4_address: 192.168.1.10
+    privileged: true
+    volumes:
+      - ../:/TRIST
+    depends_on:
+      - plc2
+      - plc3
+    restart: on-failure
+  
+  plc2:
+    image: redclouud/trist:latest
+    command: bash -c "cd /TRIST && python2 plc2.py"
+    networks: 
+      TRIST:
+        ipv4_address: 192.168.1.20
+    privileged: true
+    volumes:
+      - ../:/TRIST
+    restart: on-failure
+  
+  plc3:
+    image: redclouud/trist:latest
+    command: bash -c "cd /TRIST && python2 plc3.py"
+    networks: 
+      TRIST:
+        ipv4_address: 192.168.1.30
+    privileged: true
+    volumes:
+      - ../:/TRIST
+    restart: on-failure
+  
+  t101:
+    image: redclouud/trist:latest
+    command: bash -c "cd /TRIST && python2 T101.py"
+    volumes:
+      - ../:/TRIST
+    depends_on:
+      - plc1
+      - plc2
+      - plc3
+
+  t301:
+    image: redclouud/trist:latest
+    command: bash -c "cd /TRIST && python2 T301.py"
+    volumes:
+      - ../:/TRIST
+    depends_on:
+      - plc1
+      - plc2
+      - plc3
+
+  data-collector:
+    image: python:2.7
+    command: bash -c "cd /TRIST && python2 data_collector.py"
+    volumes:
+      - ../:/TRIST
+    depends_on:
+      - plc1
+      - plc2
+      - plc3
+      - t101
+      - t301
+    restart: on-failure
+
+# Network for container communication
+networks:
+  TRIST:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.1.0/24"

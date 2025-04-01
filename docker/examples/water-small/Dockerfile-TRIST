@@ -1,0 +1,22 @@
+FROM python:2.7
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install network tools
+RUN apt-get update && apt-get install -y \
+    && apt install -y tshark \
+    && apt install -y net-tools 
+
+# Import minicps source code
+COPY . /minicps
+WORKDIR /minicps/examples/swat-s1/
+
+# Install minicps dependencies
+RUN pip install minicps \
+    && pip install scapy \
+    && pip install rednose \
+    && pip install cryptography \
+    && pip install pyasn1 \
+    && pip install pymodbus \
+    && pip install cpppo \
+    && pip install twisted 
